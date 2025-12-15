@@ -1,0 +1,12 @@
+services:
+  back:
+    build:
+      context: ..
+      dockerfile: docker/back.Dockerfile
+    volumes:
+      - ../back:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
