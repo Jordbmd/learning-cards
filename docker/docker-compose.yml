@@ -10,3 +10,17 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: development
+
+  front:
+    build:
+      context: ..
+      dockerfile: docker/front.Dockerfile
+    volumes:
+      - ../front:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      NODE_ENV: development
+    depends_on:
+      - back
