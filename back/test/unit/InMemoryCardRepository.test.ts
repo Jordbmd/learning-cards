@@ -99,4 +99,40 @@ describe('InMemoryCardRepository', () => {
       expect(cards[0]?.getCategory()).toBe(5);
     });
   });
+
+  describe('delete', () => {
+    it('should delete an existing card', async () => {
+      const card = new Card(validCardProps);
+      await repository.save(card);
+
+      await repository.delete('123');
+
+      const foundCard = await repository.findById('123');
+      expect(foundCard).toBeNull();
+    });
+
+    it('should do nothing when deleting non-existent card', async () => {
+      await repository.delete('nonexistent');
+      const cards = await repository.findAll();
+      expect(cards).toEqual([]);
+    });
+
+    it('should only delete the specified card', async () => {
+      const card1 = new Card(validCardProps);
+      const card2Props = {
+        ...validCardProps,
+        id: '456',
+        question: 'What is JavaScript?'
+      };
+      const card2 = new Card(card2Props);
+
+      await repository.save(card1);
+      await repository.save(card2);
+      await repository.delete('123');
+
+      const cards = await repository.findAll();
+      expect(cards).toHaveLength(1);
+      expect(cards[0]?.getId()).toBe('456');
+    });
+  });
 });

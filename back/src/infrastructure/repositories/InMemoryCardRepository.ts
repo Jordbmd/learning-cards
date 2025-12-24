@@ -15,4 +15,8 @@ export class InMemoryCardRepository implements ICardRepository {
   async findAll(): Promise<Card[]> {
     return Array.from(this.cards.values());
   }
+
+  async delete(id: string): Promise<void> {
+    this.cards.delete(id);
+  }
 }
