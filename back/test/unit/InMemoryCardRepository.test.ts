@@ -33,4 +33,32 @@ describe('InMemoryCardRepository', () => {
       await repository.save(card);
     });
   });
+
+  describe('findById', () => {
+    it('should return a card when it exists', async () => {
+      const card = new Card(validCardProps);
+      await repository.save(card);
+
+      const foundCard = await repository.findById('123');
+      expect(foundCard).toBeTruthy();
+      expect(foundCard?.getId()).toBe('123');
+      expect(foundCard?.getQuestion()).toBe('What is TypeScript?');
+    });
+
+    it('should return null when card does not exist', async () => {
+      const foundCard = await repository.findById('nonexistent');
+      expect(foundCard).toBeNull();
+    });
+
+    it('should return updated card after modification', async () => {
+      const card = new Card(validCardProps);
+      await repository.save(card);
+
+      card.moveToCategory(3);
+      await repository.save(card);
+
+      const foundCard = await repository.findById('123');
+      expect(foundCard?.getCategory()).toBe(3);
+    });
+  });
 });

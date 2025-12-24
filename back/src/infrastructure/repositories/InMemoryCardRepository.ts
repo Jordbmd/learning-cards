@@ -7,4 +7,8 @@ export class InMemoryCardRepository implements ICardRepository {
   async save(card: Card): Promise<void> {
     this.cards.set(card.getId(), card);
   }
+
+  async findById(id: string): Promise<Card | null> {
+    return this.cards.get(id) || null;
+  }
 }
