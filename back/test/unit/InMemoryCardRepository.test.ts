@@ -61,4 +61,42 @@ describe('InMemoryCardRepository', () => {
       expect(foundCard?.getCategory()).toBe(3);
     });
   });
+
+  describe('findAll', () => {
+    it('should return empty array when no cards exist', async () => {
+      const cards = await repository.findAll();
+      expect(cards).toEqual([]);
+    });
+
+    it('should return all saved cards', async () => {
+      const card1 = new Card(validCardProps);
+      const card2Props = {
+        ...validCardProps,
+        id: '456',
+        question: 'What is JavaScript?',
+        answer: 'A programming language'
+      };
+      const card2 = new Card(card2Props);
+
+      await repository.save(card1);
+      await repository.save(card2);
+
+      const cards = await repository.findAll();
+      expect(cards).toHaveLength(2);
+      expect(cards.map(c => c.getId())).toContain('123');
+      expect(cards.map(c => c.getId())).toContain('456');
+    });
+
+    it('should return updated cards', async () => {
+      const card = new Card(validCardProps);
+      await repository.save(card);
+
+      card.moveToCategory(5);
+      await repository.save(card);
+
+      const cards = await repository.findAll();
+      expect(cards).toHaveLength(1);
+      expect(cards[0]?.getCategory()).toBe(5);
+    });
+  });
 });
