@@ -5,7 +5,6 @@ services:
       dockerfile: docker/back.Dockerfile
     volumes:
       - ../back:/app
-      - /app/node_modules
     ports:
       - "3000:3000"
     environment:
@@ -17,7 +16,6 @@ services:
       dockerfile: docker/front.Dockerfile
     volumes:
       - ../front:/app
-      - /app/node_modules
     ports:
       - "5173:5173"
     environment:
