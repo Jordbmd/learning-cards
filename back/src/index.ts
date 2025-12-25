@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import { InMemoryCardRepository } from './infrastructure/repositories/InMemoryCardRepository.js';
 import { CreateCard } from './application/usecases/CreateCard.js';
+import { GetCard } from './application/usecases/GetCard.js';
+import { GetAllCards } from './application/usecases/GetAllCards.js';
 import { CardController } from './interfaces/http/controllers/CardController.js';
 import { createCardRoutes } from './interfaces/http/routes/cardRoutes.js';
 
@@ -13,7 +15,9 @@ app.use(express.json());
 
 const repository = new InMemoryCardRepository();
 const createCard = new CreateCard(repository);
-const cardController = new CardController(createCard);
+const getCard = new GetCard(repository);
+const getAllCards = new GetAllCards(repository);
+const cardController = new CardController(createCard, getCard, getAllCards);
 const cardRoutes = createCardRoutes(cardController);
 
 app.use('/api', cardRoutes);

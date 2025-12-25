@@ -5,6 +5,8 @@ export function createCardRoutes(cardController: CardController): Router {
   const router = Router();
 
   router.post('/cards', (req, res) => cardController.create(req, res));
+  router.get('/cards/:id', (req, res) => cardController.getById(req, res));
+  router.get('/cards', (req, res) => cardController.getAll(req, res));
 
   return router;
 }
