@@ -3,6 +3,7 @@ import { InMemoryCardRepository } from './infrastructure/repositories/InMemoryCa
 import { CreateCard } from './application/usecases/CreateCard.js';
 import { GetCard } from './application/usecases/GetCard.js';
 import { GetAllCards } from './application/usecases/GetAllCards.js';
+import { ReviewCard } from './application/usecases/ReviewCard.js';
 import { CardController } from './interfaces/http/controllers/CardController.js';
 import { createCardRoutes } from './interfaces/http/routes/cardRoutes.js';
 
@@ -17,7 +18,8 @@ const repository = new InMemoryCardRepository();
 const createCard = new CreateCard(repository);
 const getCard = new GetCard(repository);
 const getAllCards = new GetAllCards(repository);
-const cardController = new CardController(createCard, getCard, getAllCards);
+const reviewCard = new ReviewCard(repository);
+const cardController = new CardController(createCard, getCard, getAllCards, reviewCard);
 const cardRoutes = createCardRoutes(cardController);
 
 app.use('/api', cardRoutes);
