@@ -4,6 +4,7 @@ import { CreateCard } from './application/usecases/CreateCard.js';
 import { GetCard } from './application/usecases/GetCard.js';
 import { GetAllCards } from './application/usecases/GetAllCards.js';
 import { ReviewCard } from './application/usecases/ReviewCard.js';
+import { DeleteCard } from './application/usecases/DeleteCard.js';
 import { CardController } from './interfaces/http/controllers/CardController.js';
 import { createCardRoutes } from './interfaces/http/routes/cardRoutes.js';
 
@@ -19,7 +20,8 @@ const createCard = new CreateCard(repository);
 const getCard = new GetCard(repository);
 const getAllCards = new GetAllCards(repository);
 const reviewCard = new ReviewCard(repository);
-const cardController = new CardController(createCard, getCard, getAllCards, reviewCard);
+const deleteCard = new DeleteCard(repository);
+const cardController = new CardController(createCard, getCard, getAllCards, reviewCard, deleteCard);
 const cardRoutes = createCardRoutes(cardController);
 
 app.use('/api', cardRoutes);

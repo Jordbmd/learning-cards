@@ -3,13 +3,15 @@ import { CreateCard } from '../../../application/usecases/CreateCard.js';
 import { GetCard } from '../../../application/usecases/GetCard.js';
 import { GetAllCards } from '../../../application/usecases/GetAllCards.js';
 import { ReviewCard } from '../../../application/usecases/ReviewCard.js';
+import { DeleteCard } from '../../../application/usecases/DeleteCard.js';
 
 export class CardController {
   constructor(
     private readonly createCard: CreateCard,
     private readonly getCard: GetCard,
     private readonly getAllCards: GetAllCards,
-    private readonly reviewCard: ReviewCard
+    private readonly reviewCard: ReviewCard,
+    private readonly deleteCard: DeleteCard
   ) {}
 
   async create(req: Request, res: Response): Promise<void> {
@@ -112,6 +114,21 @@ export class CardController {
         createdAt: card.getCreatedAt(),
         lastReviewedAt: card.getLastReviewedAt()
       });
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(404).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    }
+  }
+
+  async delete(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      await this.deleteCard.execute(id);
+
+      res.status(204).send();
     } catch (error) {
       if (error instanceof Error) {
         res.status(404).json({ error: error.message });
