@@ -22,7 +22,7 @@ export class CardController {
 
   async create(req: Request, res: Response): Promise<void> {
     try {
-      const { question, answer, tags } = req.body;
+      const { question, answer, tag } = req.body;
 
       if (!question || !answer) {
         res.status(400).json({ error: 'Question and answer are required' });
@@ -32,7 +32,7 @@ export class CardController {
       const card = await this.createCard.execute({
         question,
         answer,
-        tags
+        tag
       });
 
       res.status(201).json({
@@ -40,7 +40,7 @@ export class CardController {
         question: card.getQuestion(),
         answer: card.getAnswer(),
         category: card.getCategory(),
-        tags: card.getTags(),
+        tag: card.getTag(),
         createdAt: card.getCreatedAt(),
         lastReviewedAt: card.getLastReviewedAt()
       });
@@ -69,7 +69,7 @@ export class CardController {
         question: card.getQuestion(),
         answer: card.getAnswer(),
         category: card.getCategory(),
-        tags: card.getTags(),
+        tag: card.getTag(),
         createdAt: card.getCreatedAt(),
         lastReviewedAt: card.getLastReviewedAt()
       });
@@ -90,8 +90,8 @@ export class CardController {
         filters.category = parseInt(req.query.category as string);
       }
 
-      if (req.query.tags) {
-        filters.tags = (req.query.tags as string).split(',');
+      if (req.query.tag) {
+        filters.tag = req.query.tag as string;
       }
 
       if (req.query.fromDate) {
@@ -110,7 +110,7 @@ export class CardController {
           question: card.getQuestion(),
           answer: card.getAnswer(),
           category: card.getCategory(),
-          tags: card.getTags(),
+          tag: card.getTag(),
           createdAt: card.getCreatedAt(),
           lastReviewedAt: card.getLastReviewedAt()
         }))
@@ -133,7 +133,7 @@ export class CardController {
           question: card.getQuestion(),
           answer: card.getAnswer(),
           category: card.getCategory(),
-          tags: card.getTags(),
+          tag: card.getTag(),
           createdAt: card.getCreatedAt(),
           lastReviewedAt: card.getLastReviewedAt()
         }))
@@ -198,7 +198,7 @@ export class CardController {
         question: card.getQuestion(),
         answer: card.getAnswer(),
         category: card.getCategory(),
-        tags: card.getTags(),
+        tag: card.getTag(),
         createdAt: card.getCreatedAt(),
         lastReviewedAt: card.getLastReviewedAt()
       });
@@ -235,7 +235,7 @@ export class CardController {
   async update(req: Request, res: Response): Promise<void> {
     try {
       const { id } = req.params;
-      const { question, answer, tags } = req.body;
+      const { question, answer, tag } = req.body;
 
       if (!id) {
         res.status(400).json({ error: 'Card ID is required' });
@@ -246,7 +246,7 @@ export class CardController {
         cardId: id,
         question,
         answer,
-        tags
+        tag
       });
 
       res.status(200).json({
@@ -254,7 +254,7 @@ export class CardController {
         question: card.getQuestion(),
         answer: card.getAnswer(),
         category: card.getCategory(),
-        tags: card.getTags(),
+        tag: card.getTag(),
         createdAt: card.getCreatedAt(),
         lastReviewedAt: card.getLastReviewedAt()
       });

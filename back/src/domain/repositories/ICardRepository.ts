@@ -3,7 +3,7 @@ import { Category } from '../entities/Category.js';
 
 export interface CardFilters {
   category?: Category;
-  tags?: string[];
+  tag?: string;
   fromDate?: Date;
   toDate?: Date;
 }

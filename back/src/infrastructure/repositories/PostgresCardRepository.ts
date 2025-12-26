@@ -6,14 +6,14 @@ import pool from '../database/pool.js';
 export class PostgresCardRepository implements ICardRepository {
   async save(card: Card): Promise<void> {
     const query = `
-      INSERT INTO cards (id, question, answer, category, tags, created_at, last_reviewed_at)
+      INSERT INTO cards (id, question, answer, category, tag, created_at, last_reviewed_at)
       VALUES ($1, $2, $3, $4, $5, $6, $7)
       ON CONFLICT (id) 
       DO UPDATE SET 
         question = EXCLUDED.question,
         answer = EXCLUDED.answer,
         category = EXCLUDED.category,
-        tags = EXCLUDED.tags,
+        tag = EXCLUDED.tag,
         last_reviewed_at = EXCLUDED.last_reviewed_at
     `;
 
@@ -22,7 +22,7 @@ export class PostgresCardRepository implements ICardRepository {
       card.getQuestion(),
       card.getAnswer(),
       getCategoryOrder(card.getCategory()),
-      card.getTags(),
+      card.getTag() || null,
       card.getCreatedAt(),
       card.getLastReviewedAt(),
     ];
@@ -52,9 +52,9 @@ export class PostgresCardRepository implements ICardRepository {
       paramCount++;
     }
 
-    if (filters?.tags && filters.tags.length > 0) {
-      conditions.push(`tags && $${paramCount}`);
-      values.push(filters.tags);
+    if (filters?.tag) {
+      conditions.push(`tag = $${paramCount}`);
+      values.push(filters.tag);
       paramCount++;
     }
 
@@ -105,7 +105,7 @@ export class PostgresCardRepository implements ICardRepository {
       question: row.question,
       answer: row.answer,
       category: category,
-      tags: row.tags || [],
+      tag: row.tag || undefined,
       createdAt: new Date(row.created_at),
       lastReviewedAt: row.last_reviewed_at ? new Date(row.last_reviewed_at) : null,
     });

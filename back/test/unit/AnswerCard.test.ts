@@ -20,7 +20,6 @@ describe('AnswerCard', () => {
         question: 'Question 1',
         answer: 'Answer 1',
         category: Category.FIRST,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: null
       });
@@ -38,7 +37,6 @@ describe('AnswerCard', () => {
         question: 'Question 1',
         answer: 'Answer 1',
         category: Category.THIRD,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: new Date()
       });
@@ -55,7 +53,6 @@ describe('AnswerCard', () => {
         question: 'Question 1',
         answer: 'Answer 1',
         category: Category.SEVENTH,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: new Date()
       });
@@ -63,7 +60,7 @@ describe('AnswerCard', () => {
       await repository.save(card);
       const result = await answerCard.execute({ cardId: '1', isValid: true });
 
-      expect(result.getCategory()).toBe(8);
+      expect(result.getCategory()).toBe(Category.DONE);
       expect(result.isDone()).toBe(true);
     });
 
@@ -73,7 +70,6 @@ describe('AnswerCard', () => {
         question: 'Question 1',
         answer: 'Answer 1',
         category: Category.SEVENTH,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: new Date()
       });
@@ -96,7 +92,6 @@ describe('AnswerCard', () => {
         question: 'Question 1',
         answer: 'Answer 1',
         category: Category.SECOND,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: null
       });
@@ -114,7 +109,6 @@ describe('AnswerCard', () => {
         question: 'Question 1',
         answer: 'Answer 1',
         category: Category.FIFTH,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: new Date()
       });
@@ -132,7 +126,6 @@ describe('AnswerCard', () => {
         question: 'Question 1',
         answer: 'Answer 1',
         category: Category.FIRST,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: null
       });

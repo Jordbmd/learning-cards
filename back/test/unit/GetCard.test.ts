@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { GetCard } from '../../src/application/usecases/GetCard.js';
 import { CreateCard } from '../../src/application/usecases/CreateCard.js';
 import { InMemoryCardRepository } from '../../src/infrastructure/repositories/InMemoryCardRepository.js';
+import { Category } from '../../src/domain/entities/Category.js';
 
 describe('GetCard', () => {
   let getCard: GetCard;
@@ -37,7 +38,7 @@ describe('GetCard', () => {
       const input = {
         question: 'What is JavaScript?',
         answer: 'A programming language',
-        tags: ['programming', 'javascript']
+        tag: 'programming'
       };
 
       const createdCard = await createCard.execute(input);
@@ -45,8 +46,8 @@ describe('GetCard', () => {
 
       expect(foundCard.getQuestion()).toBe('What is JavaScript?');
       expect(foundCard.getAnswer()).toBe('A programming language');
-      expect(foundCard.getTags()).toEqual(['programming', 'javascript']);
-      expect(foundCard.getCategory()).toBe(1);
+      expect(foundCard.getTag()).toBe('programming');
+      expect(foundCard.getCategory()).toBe(Category.FIRST);
       expect(foundCard.getLastReviewedAt()).toBeNull();
     });
   });

@@ -5,7 +5,7 @@ export interface UpdateCardInput {
   cardId: string;
   question?: string;
   answer?: string;
-  tags?: string[];
+  tag?: string;
 }
 
 export class UpdateCard {
@@ -24,16 +24,6 @@ export class UpdateCard {
 
     if (input.answer !== undefined) {
       card.updateAnswer(input.answer);
-    }
-
-    if (input.tags !== undefined) {
-      const currentTags = card.getTags();
-      currentTags.forEach(tag => card.removeTag(tag));
-      input.tags.forEach(tag => {
-        if (tag.trim()) {
-          card.addTag(tag.trim());
-        }
-      });
     }
 
     await this.repository.save(card);

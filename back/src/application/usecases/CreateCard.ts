@@ -6,7 +6,7 @@ import { Category } from '../../domain/entities/Category.js';
 export interface CreateCardInput {
   question: string;
   answer: string;
-  tags?: string[];
+  tag?: string;
 }
 
 export class CreateCard {
@@ -18,7 +18,7 @@ export class CreateCard {
       question: input.question,
       answer: input.answer,
       category: Category.FIRST,
-      tags: input.tags || [],
+      ...(input.tag && { tag: input.tag }),
       createdAt: new Date(),
       lastReviewedAt: null
     });

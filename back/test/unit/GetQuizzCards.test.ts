@@ -20,7 +20,6 @@ describe('GetQuizzCards', () => {
         question: 'Question 1',
         answer: 'Answer 1',
         category: Category.SEVENTH,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: new Date()
       });
@@ -40,7 +39,6 @@ describe('GetQuizzCards', () => {
         question: 'Question 1',
         answer: 'Answer 1',
         category: Category.FIRST,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: yesterday
       });
@@ -59,7 +57,6 @@ describe('GetQuizzCards', () => {
         question: 'Question 1',
         answer: 'Answer 1',
         category: Category.FIRST,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: today
       });
@@ -79,7 +76,6 @@ describe('GetQuizzCards', () => {
         question: 'Question 1',
         answer: 'Answer 1',
         category: Category.SECOND,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: twoDaysAgo
       });
@@ -99,7 +95,6 @@ describe('GetQuizzCards', () => {
         question: 'Question 1',
         answer: 'Answer 1',
         category: Category.FOURTH,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: eightDaysAgo
       });
@@ -122,7 +117,6 @@ describe('GetQuizzCards', () => {
         question: 'Question 1',
         answer: 'Answer 1',
         category: Category.FIRST,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: oneDayAgo
       });
@@ -132,7 +126,6 @@ describe('GetQuizzCards', () => {
         question: 'Question 2',
         answer: 'Answer 2',
         category: Category.SECOND,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: today
       });
@@ -142,7 +135,6 @@ describe('GetQuizzCards', () => {
         question: 'Question 3',
         answer: 'Answer 3',
         category: Category.SECOND,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: twoDaysAgo
       });
@@ -167,7 +159,6 @@ describe('GetQuizzCards', () => {
         question: 'Question 1',
         answer: 'Answer 1',
         category: Category.FIRST,
-        tags: [],
         createdAt: new Date(),
         lastReviewedAt: oneDayAgo
       });

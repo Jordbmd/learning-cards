@@ -11,7 +11,7 @@ describe('Card', () => {
       question: 'What is TypeScript?',
       answer: 'A typed superset of JavaScript',
       category: Category.FIRST,
-      tags: ['programming', 'typescript'],
+      tag: 'programming',
       createdAt: new Date('2024-01-01'),
       lastReviewedAt: null
     };
@@ -24,7 +24,7 @@ describe('Card', () => {
       expect(card.getQuestion()).toBe('What is TypeScript?');
       expect(card.getAnswer()).toBe('A typed superset of JavaScript');
       expect(card.getCategory()).toBe(Category.FIRST);
-      expect(card.getTags()).toEqual(['programming', 'typescript']);
+      expect(card.getTag()).toBe('programming');
     });
 
     it('should throw error when id is empty', () => {
@@ -69,9 +69,9 @@ describe('Card', () => {
       expect(card.getCategory()).toBe(Category.FIRST);
     });
 
-    it('should return correct tags', () => {
+    it('should return correct tag', () => {
       const card = new Card(validProps);
-      expect(card.getTags()).toEqual(['programming', 'typescript']);
+      expect(card.getTag()).toBe('programming');
     });
 
     it('should return correct createdAt date', () => {
@@ -133,63 +133,7 @@ describe('Card', () => {
     });
   });
 
-  describe('addTag', () => {
-    it('should add a new tag', () => {
-      const card = new Card(validProps);
-      card.addTag('javascript');
-      expect(card.getTags()).toContain('javascript');
-    });
 
-    it('should trim tag before adding', () => {
-      const card = new Card(validProps);
-      card.addTag('  javascript  ');
-      expect(card.getTags()).toContain('javascript');
-    });
-
-    it('should not add duplicate tags', () => {
-      const card = new Card(validProps);
-      card.addTag('programming');
-      expect(card.getTags().filter(t => t === 'programming').length).toBe(1);
-    });
-
-    it('should throw error when tag is empty', () => {
-      const card = new Card(validProps);
-      expect(() => card.addTag('')).toThrow('Tag cannot be empty');
-    });
-
-    it('should throw error when tag is whitespace', () => {
-      const card = new Card(validProps);
-      expect(() => card.addTag('   ')).toThrow('Tag cannot be empty');
-    });
-  });
-
-  describe('removeTag', () => {
-    it('should remove existing tag', () => {
-      const card = new Card(validProps);
-      card.removeTag('programming');
-      expect(card.hasTag('programming')).toBe(false);
-      expect(card.getTags()).toContain('typescript');
-    });
-
-    it('should do nothing when tag does not exist', () => {
-      const card = new Card(validProps);
-      const tagsBefore = [...card.getTags()];
-      card.removeTag('nonexistent');
-      expect(card.getTags()).toEqual(tagsBefore);
-    });
-  });
-
-  describe('hasTag', () => {
-    it('should return true when tag exists', () => {
-      const card = new Card(validProps);
-      expect(card.hasTag('programming')).toBe(true);
-    });
-
-    it('should return false when tag does not exist', () => {
-      const card = new Card(validProps);
-      expect(card.hasTag('javascript')).toBe(false);
-    });
-  });
 
   describe('isInFinalCategory', () => {
     it('should return true when card is in category 7', () => {

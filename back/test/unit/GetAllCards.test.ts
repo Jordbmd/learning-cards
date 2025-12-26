@@ -43,7 +43,7 @@ describe('GetAllCards', () => {
       const input = {
         question: 'What is Node.js?',
         answer: 'A JavaScript runtime',
-        tags: ['programming', 'nodejs']
+        tag: 'programming'
       };
 
       await createCard.execute(input);
@@ -52,7 +52,7 @@ describe('GetAllCards', () => {
       expect(cards).toHaveLength(1);
       expect(cards[0]?.getQuestion()).toBe('What is Node.js?');
       expect(cards[0]?.getAnswer()).toBe('A JavaScript runtime');
-      expect(cards[0]?.getTags()).toEqual(['programming', 'nodejs']);
+      expect(cards[0]?.getTag()).toBe('programming');
       expect(cards[0]?.getCategory()).toBe(Category.FIRST);
     });
 
@@ -60,12 +60,12 @@ describe('GetAllCards', () => {
       const input1 = {
         question: 'Question 1',
         answer: 'Answer 1',
-        tags: ['tag1']
+        tag: 'tag1'
       };
       const input2 = {
         question: 'Question 2',
         answer: 'Answer 2',
-        tags: ['tag2', 'tag3']
+        tag: 'tag2'
       };
       const input3 = {
         question: 'Question 3',
@@ -92,19 +92,19 @@ describe('GetAllCards', () => {
       await createCard.execute({
         question: 'JavaScript Question',
         answer: 'JavaScript Answer',
-        tags: ['javascript', 'frontend']
+        tag: 'javascript'
       });
 
       await createCard.execute({
         question: 'TypeScript Question',
         answer: 'TypeScript Answer',
-        tags: ['typescript', 'frontend']
+        tag: 'frontend'
       });
 
       await createCard.execute({
         question: 'Node.js Question',
         answer: 'Node.js Answer',
-        tags: ['nodejs', 'backend']
+        tag: 'backend'
       });
     });
 
@@ -126,22 +126,21 @@ describe('GetAllCards', () => {
     });
 
     it('should filter cards by single tag', async () => {
-      const cards = await getAllCards.execute({ tags: ['javascript'] });
+      const cards = await getAllCards.execute({ tag: 'javascript' });
       expect(cards).toHaveLength(1);
       expect(cards[0]?.getQuestion()).toBe('JavaScript Question');
     });
 
     it('should filter cards by multiple tags', async () => {
-      const cards = await getAllCards.execute({ tags: ['frontend'] });
-      expect(cards).toHaveLength(2);
+      const cards = await getAllCards.execute({ tag: 'frontend' });
+      expect(cards).toHaveLength(1);
       
       const questions = cards.map(c => c.getQuestion());
-      expect(questions).toContain('JavaScript Question');
       expect(questions).toContain('TypeScript Question');
     });
 
     it('should filter cards by backend tag', async () => {
-      const cards = await getAllCards.execute({ tags: ['backend'] });
+      const cards = await getAllCards.execute({ tag: 'backend' });
       expect(cards).toHaveLength(1);
       expect(cards[0]?.getQuestion()).toBe('Node.js Question');
     });
@@ -195,12 +194,12 @@ describe('GetAllCards', () => {
 
       const cards = await getAllCards.execute({
         category: Category.THIRD,
-        tags: ['javascript']
+        tag: 'javascript'
       });
 
       expect(cards).toHaveLength(1);
-      expect(cards[0]?.getCategory()).toBe(3);
-      expect(cards[0]?.hasTag('javascript')).toBe(true);
+      expect(cards[0]?.getCategory()).toBe(Category.THIRD);
+      expect(cards[0]?.getTag()).toBe('javascript');
     });
 
     it('should return all cards when no filters provided', async () => {
@@ -209,7 +208,7 @@ describe('GetAllCards', () => {
     });
 
     it('should return empty array when no cards match filters', async () => {
-      const cards = await getAllCards.execute({ tags: ['nonexistent'] });
+      const cards = await getAllCards.execute({ tag: 'nonexistent' });
       expect(cards).toHaveLength(0);
     });
   });

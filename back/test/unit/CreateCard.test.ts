@@ -24,22 +24,22 @@ describe('CreateCard', () => {
       expect(card.getQuestion()).toBe('What is TypeScript?');
       expect(card.getAnswer()).toBe('A typed superset of JavaScript');
       expect(card.getCategory()).toBe(Category.FIRST);
-      expect(card.getTags()).toEqual([]);
+      expect(card.getTag()).toBeUndefined();
       expect(card.getLastReviewedAt()).toBeNull();
       expect(card.getId()).toBeTruthy();
       expect(card.getCreatedAt()).toBeInstanceOf(Date);
     });
 
-    it('should create a card with tags', async () => {
+    it('should create a card with tag', async () => {
       const input = {
         question: 'What is JavaScript?',
         answer: 'A programming language',
-        tags: ['programming', 'javascript']
+        tag: 'programming'
       };
 
       const card = await createCard.execute(input);
 
-      expect(card.getTags()).toEqual(['programming', 'javascript']);
+      expect(card.getTag()).toBe('programming');
     });
 
     it('should save the card in repository', async () => {

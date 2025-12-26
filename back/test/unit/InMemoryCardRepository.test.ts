@@ -14,7 +14,7 @@ describe('InMemoryCardRepository', () => {
       question: 'What is TypeScript?',
       answer: 'A typed superset of JavaScript',
       category: Category.FIRST,
-      tags: ['programming', 'typescript'],
+      tag: 'programming',
       createdAt: new Date('2024-01-01'),
       lastReviewedAt: null
     };

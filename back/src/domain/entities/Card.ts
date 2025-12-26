@@ -5,7 +5,7 @@ export interface CardProps {
   question: string;
   answer: string;
   category: Category;
-  tags: string[];
+  tag?: string;
   createdAt: Date;
   lastReviewedAt: Date | null;
 }
@@ -34,8 +34,8 @@ export default class Card {
     return this.props.category;
   }
 
-  getTags(): string[] {
-    return this.props.tags;
+  getTag(): string | undefined {
+    return this.props.tag;
   }
 
   getCreatedAt(): Date {
@@ -71,24 +71,6 @@ export default class Card {
   resetToCategory1(): void {
     this.props.category = Category.FIRST;
     this.props.lastReviewedAt = new Date();
-  }
-
-  addTag(tag: string): void {
-    const trimmedTag = tag.trim();
-    if (!trimmedTag) {
-      throw new Error('Tag cannot be empty');
-    }
-    if (!this.props.tags.includes(trimmedTag)) {
-      this.props.tags.push(trimmedTag);
-    }
-  }
-
-  removeTag(tag: string): void {
-    this.props.tags = this.props.tags.filter(t => t !== tag);
-  }
-
-  hasTag(tag: string): boolean {
-    return this.props.tags.includes(tag);
   }
 
   isInFinalCategory(): boolean {
