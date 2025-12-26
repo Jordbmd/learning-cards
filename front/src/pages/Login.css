@@ -84,6 +84,12 @@
   box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
 }
 
+.btn-submit:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .btn-back {
   padding: 1rem;
   font-size: 1rem;

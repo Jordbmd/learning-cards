@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { userService } from '../services/userService';
 import './Login.css';
 
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,7 +18,25 @@ function Login() {
       return;
     }
 
-    console.log('Login:', email);
+    setIsLoading(true);
+
+    try {
+      const user = await userService.getUserByEmail(email);
+
+      if (!user) {
+        setError('Aucun utilisateur trouvé avec cet email');
+        setIsLoading(false);
+        return;
+      }
+
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      console.log('Utilisateur connecté:', user);
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erreur lors de la connexion');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -38,8 +58,8 @@ function Login() {
 
           {error && <div className="error-message">{error}</div>}
 
-          <button type="submit" className="btn-submit">
-            Se connecter
+          <button type="submit" className="btn-submit" disabled={isLoading}>
+            {isLoading ? 'Connexion...' : 'Se connecter'}
           </button>
 
           <button 

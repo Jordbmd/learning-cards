@@ -25,16 +25,9 @@ export const userService = {
   },
 
   async getUserByEmail(email: string): Promise<User | null> {
-    const response = await fetch(`${API_BASE_URL}/users?email=${encodeURIComponent(email)}`);
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        return null;
-      }
-      throw new Error('Erreur lors de la récupération de l\'utilisateur');
-    }
-
-    return response.json();
+    const users = await this.getAllUsers();
+    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    return user || null;
   },
 
   async getAllUsers(): Promise<User[]> {
