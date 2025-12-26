@@ -76,7 +76,7 @@ function Dashboard() {
                 <AddIcon className="action-icon" />
                 <span className="action-text">Créer une carte</span>
               </button>
-              <button className="action-btn" disabled>
+              <button className="action-btn" onClick={() => navigate('/cards')}>
                 <MenuBookIcon className="action-icon" />
                 <span className="action-text">Mes cartes</span>
               </button>
