@@ -50,6 +50,22 @@ export default class Card {
     this.props.lastReviewedAt = new Date();
   }
 
+  updateQuestion(newQuestion: string): void {
+    const trimmedQuestion = newQuestion?.trim();
+    if (!trimmedQuestion) {
+      throw new Error('Card question is required');
+    }
+    this.props.question = trimmedQuestion;
+  }
+
+  updateAnswer(newAnswer: string): void {
+    const trimmedAnswer = newAnswer?.trim();
+    if (!trimmedAnswer) {
+      throw new Error('Card answer is required');
+    }
+    this.props.answer = trimmedAnswer;
+  }
+
   resetToCategory1(): void {
     this.props.category = 1;
     this.props.lastReviewedAt = new Date();

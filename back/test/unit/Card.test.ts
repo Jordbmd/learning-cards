@@ -284,4 +284,72 @@ describe('Card', () => {
       expect(card.isDone()).toBe(false);
     });
   });
+
+  describe('updateQuestion', () => {
+    it('should update question with valid value', () => {
+      const card = new Card(validProps);
+      card.updateQuestion('What is JavaScript?');
+      expect(card.getQuestion()).toBe('What is JavaScript?');
+    });
+
+    it('should trim whitespace from new question', () => {
+      const card = new Card(validProps);
+      card.updateQuestion('  New question  ');
+      expect(card.getQuestion()).toBe('New question');
+    });
+
+    it('should throw error when new question is empty', () => {
+      const card = new Card(validProps);
+      expect(() => card.updateQuestion('')).toThrow('Card question is required');
+    });
+
+    it('should throw error when new question is whitespace', () => {
+      const card = new Card(validProps);
+      expect(() => card.updateQuestion('   ')).toThrow('Card question is required');
+    });
+
+    it('should throw error when new question is null', () => {
+      const card = new Card(validProps);
+      expect(() => card.updateQuestion(null as any)).toThrow('Card question is required');
+    });
+
+    it('should throw error when new question is undefined', () => {
+      const card = new Card(validProps);
+      expect(() => card.updateQuestion(undefined as any)).toThrow('Card question is required');
+    });
+  });
+
+  describe('updateAnswer', () => {
+    it('should update answer with valid value', () => {
+      const card = new Card(validProps);
+      card.updateAnswer('A programming language');
+      expect(card.getAnswer()).toBe('A programming language');
+    });
+
+    it('should trim whitespace from new answer', () => {
+      const card = new Card(validProps);
+      card.updateAnswer('  New answer  ');
+      expect(card.getAnswer()).toBe('New answer');
+    });
+
+    it('should throw error when new answer is empty', () => {
+      const card = new Card(validProps);
+      expect(() => card.updateAnswer('')).toThrow('Card answer is required');
+    });
+
+    it('should throw error when new answer is whitespace', () => {
+      const card = new Card(validProps);
+      expect(() => card.updateAnswer('   ')).toThrow('Card answer is required');
+    });
+
+    it('should throw error when new answer is null', () => {
+      const card = new Card(validProps);
+      expect(() => card.updateAnswer(null as any)).toThrow('Card answer is required');
+    });
+
+    it('should throw error when new answer is undefined', () => {
+      const card = new Card(validProps);
+      expect(() => card.updateAnswer(undefined as any)).toThrow('Card answer is required');
+    });
+  });
 });
