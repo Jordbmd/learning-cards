@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
-import { InMemoryCardRepository } from './infrastructure/repositories/InMemoryCardRepository.js';
+import { PostgresCardRepository } from './infrastructure/repositories/PostgresCardRepository.js';
+import initDatabase from './infrastructure/database/initDatabase.js';
 import { CreateCard } from './application/usecases/CreateCard.js';
 import { GetCard } from './application/usecases/GetCard.js';
 import { GetAllCards } from './application/usecases/GetAllCards.js';
@@ -15,7 +16,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const repository = new InMemoryCardRepository();
+const repository = new PostgresCardRepository();
 const createCard = new CreateCard(repository);
 const getCard = new GetCard(repository);
 const getAllCards = new GetAllCards(repository);
@@ -30,6 +31,14 @@ app.get('/health', (req: Request, res: Response) => {
   res.json({ status: 'ok' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Initialize database and start server
+initDatabase()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  });
