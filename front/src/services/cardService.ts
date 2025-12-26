@@ -1,5 +1,5 @@
 import { API_BASE_URL } from '../config/constants';
-import type { Card, CreateCardDTO, ReviewCardDTO, GetCardsFilters, GetQuizzParams } from '../domain/types';
+import type { Card, CreateCardDTO, UpdateCardDTO, ReviewCardDTO, GetCardsFilters, GetQuizzParams } from '../domain/types';
 
 class CardService {
   async createCard(data: CreateCardDTO): Promise<Card> {
@@ -124,6 +124,25 @@ class CardService {
       }
       throw new Error('Erreur lors de la suppression de la carte');
     }
+  }
+
+  async updateCard(cardId: string, data: UpdateCardDTO): Promise<Card> {
+    const response = await fetch(`${API_BASE_URL}/cards/${cardId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error('Carte non trouvée');
+      }
+      throw new Error('Erreur lors de la mise à jour de la carte');
+    }
+
+    return response.json();
   }
 }
 

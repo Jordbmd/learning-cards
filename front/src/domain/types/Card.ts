@@ -14,6 +14,12 @@ export interface CreateCardDTO {
     tags?: string[];
 }
 
+export interface UpdateCardDTO {
+    question?: string;
+    answer?: string;
+    tags?: string[];
+}
+
 export interface ReviewCardDTO {
     newCategory: number;
 }
