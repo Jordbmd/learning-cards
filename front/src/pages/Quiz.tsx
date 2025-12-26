@@ -14,6 +14,7 @@ function Quiz() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [quizBlocked, setQuizBlocked] = useState(false);
+  const [userAnswer, setUserAnswer] = useState('');
 
   useEffect(() => {
     checkAvailabilityAndLoadCards();
@@ -57,6 +58,7 @@ function Quiz() {
       if (currentIndex < cards.length - 1) {
         setCurrentIndex(currentIndex + 1);
         setShowAnswer(false);
+        setUserAnswer('');
       } else {
         const userId = localStorage.getItem('userId');
         if (userId) {
@@ -137,10 +139,27 @@ function Quiz() {
           <p>{currentCard.question}</p>
         </div>
 
+        <div className="user-answer-section">
+          <h2>Votre réponse</h2>
+          <textarea
+            className="answer-input"
+            value={userAnswer}
+            onChange={(e) => setUserAnswer(e.target.value)}
+            placeholder="Tapez votre réponse ici..."
+            disabled={showAnswer}
+          />
+        </div>
+
         {showAnswer && (
-          <div className="answer-section">
-            <h2>Réponse</h2>
-            <p>{currentCard.answer}</p>
+          <div className="answer-comparison">
+            <div className="comparison-box user-response">
+              <h3>Votre réponse</h3>
+              <p>{userAnswer || '(Aucune réponse fournie)'}</p>
+            </div>
+            <div className="comparison-box expected-answer">
+              <h3>Réponse attendue</h3>
+              <p>{currentCard.answer}</p>
+            </div>
           </div>
         )}
 
