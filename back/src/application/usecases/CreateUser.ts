@@ -11,6 +11,11 @@ export class CreateUser {
   constructor(private readonly repository: IUserRepository) {}
 
   async execute(input: CreateUserInput): Promise<User> {
+    const existingUser = await this.repository.findByEmail(input.email);
+    if (existingUser) {
+      throw new Error('Email already exists');
+    }
+
     const now = new Date();
     const user = new User({
       id: randomUUID(),

@@ -104,4 +104,93 @@ describe('InMemoryUserRepository', () => {
       expect(users[0]?.getEmail()).toBe('john@example.com');
     });
   });
+
+  describe('findByEmail', () => {
+    it('should return null when email does not exist', async () => {
+      const user = await repository.findByEmail('nonexistent@example.com');
+      expect(user).toBe(null);
+    });
+
+    it('should return user when email exists', async () => {
+      const User = (await import('../../src/domain/entities/User.js')).default;
+      
+      const user = new User({
+        id: '123',
+        name: 'John Doe',
+        email: 'john@example.com',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+
+      await repository.save(user);
+
+      const foundUser = await repository.findByEmail('john@example.com');
+      expect(foundUser).toBeTruthy();
+      expect(foundUser?.getId()).toBe('123');
+      expect(foundUser?.getName()).toBe('John Doe');
+    });
+
+    it('should find user with case-insensitive email', async () => {
+      const User = (await import('../../src/domain/entities/User.js')).default;
+      
+      const user = new User({
+        id: '123',
+        name: 'John Doe',
+        email: 'john@example.com',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+
+      await repository.save(user);
+
+      const foundUser = await repository.findByEmail('JOHN@EXAMPLE.COM');
+      expect(foundUser).toBeTruthy();
+      expect(foundUser?.getId()).toBe('123');
+    });
+
+    it('should return null for different email', async () => {
+      const User = (await import('../../src/domain/entities/User.js')).default;
+      
+      const user = new User({
+        id: '123',
+        name: 'John Doe',
+        email: 'john@example.com',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+
+      await repository.save(user);
+
+      const foundUser = await repository.findByEmail('jane@example.com');
+      expect(foundUser).toBe(null);
+    });
+
+    it('should return correct user when multiple users exist', async () => {
+      const User = (await import('../../src/domain/entities/User.js')).default;
+      
+      const user1 = new User({
+        id: '123',
+        name: 'John Doe',
+        email: 'john@example.com',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+
+      const user2 = new User({
+        id: '456',
+        name: 'Jane Doe',
+        email: 'jane@example.com',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+
+      await repository.save(user1);
+      await repository.save(user2);
+
+      const foundUser = await repository.findByEmail('jane@example.com');
+      expect(foundUser).toBeTruthy();
+      expect(foundUser?.getId()).toBe('456');
+      expect(foundUser?.getName()).toBe('Jane Doe');
+    });
+  });
 });

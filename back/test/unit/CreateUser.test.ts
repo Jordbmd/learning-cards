@@ -93,5 +93,37 @@ describe('CreateUser', () => {
 
       expect(user.getEmail()).toBe('user@mail.example.com');
     });
+
+    it('should throw error when email already exists', async () => {
+      const input1 = {
+        name: 'First User',
+        email: 'duplicate@example.com'
+      };
+
+      await createUser.execute(input1);
+
+      const input2 = {
+        name: 'Second User',
+        email: 'duplicate@example.com'
+      };
+
+      await expect(createUser.execute(input2)).rejects.toThrow('Email already exists');
+    });
+
+    it('should throw error when email exists with different case', async () => {
+      const input1 = {
+        name: 'First User',
+        email: 'test@example.com'
+      };
+
+      await createUser.execute(input1);
+
+      const input2 = {
+        name: 'Second User',
+        email: 'TEST@EXAMPLE.COM'
+      };
+
+      await expect(createUser.execute(input2)).rejects.toThrow('Email already exists');
+    });
   });
 });
