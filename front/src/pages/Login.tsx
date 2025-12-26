@@ -30,6 +30,7 @@ function Login() {
       }
 
       localStorage.setItem('currentUser', JSON.stringify(user));
+      localStorage.setItem('userId', user.id);
       console.log('Utilisateur connecté:', user);
       navigate('/dashboard');
     } catch (err) {

@@ -6,6 +6,11 @@ interface CreateUserDTO {
   email: string;
 }
 
+interface QuizAvailability {
+  canDoQuiz: boolean;
+  lastQuizDate: string | null;
+}
+
 export const userService = {
   async createUser(data: CreateUserDTO): Promise<User> {
     const response = await fetch(`${API_BASE_URL}/users`, {
@@ -38,5 +43,25 @@ export const userService = {
     }
 
     return response.json();
+  },
+
+  async checkQuizAvailability(userId: string): Promise<QuizAvailability> {
+    const response = await fetch(`${API_BASE_URL}/users/${userId}/quiz/availability`);
+
+    if (!response.ok) {
+      throw new Error('Erreur lors de la vérification de la disponibilité du quiz');
+    }
+
+    return response.json();
+  },
+
+  async markQuizCompleted(userId: string): Promise<void> {
+    const response = await fetch(`${API_BASE_URL}/users/${userId}/quiz/complete`, {
+      method: 'POST',
+    });
+
+    if (!response.ok) {
+      throw new Error('Erreur lors de la validation du quiz');
+    }
   },
 };

@@ -4,6 +4,8 @@ import { GetUser } from '../../../application/usecases/GetUser.js';
 import { GetAllUsers } from '../../../application/usecases/GetAllUsers.js';
 import { UpdateUser } from '../../../application/usecases/UpdateUser.js';
 import { DeleteUser } from '../../../application/usecases/DeleteUser.js';
+import { CheckQuizAvailability } from '../../../application/usecases/CheckQuizAvailability.js';
+import { MarkQuizCompleted } from '../../../application/usecases/MarkQuizCompleted.js';
 
 export class UserController {
   constructor(
@@ -11,7 +13,9 @@ export class UserController {
     private readonly getUser: GetUser,
     private readonly getAllUsers: GetAllUsers,
     private readonly updateUser: UpdateUser,
-    private readonly deleteUser: DeleteUser
+    private readonly deleteUser: DeleteUser,
+    private readonly checkQuizAvailabilityUseCase: CheckQuizAvailability,
+    private readonly markQuizCompletedUseCase: MarkQuizCompleted
   ) {}
 
   async create(req: Request, res: Response): Promise<void> {
@@ -132,6 +136,48 @@ export class UserController {
       }
 
       await this.deleteUser.execute(id);
+
+      res.status(204).send();
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(404).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    }
+  }
+
+  async checkQuizAvailability(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        res.status(400).json({ error: 'User ID is required' });
+        return;
+      }
+
+      const result = await this.checkQuizAvailabilityUseCase.execute(id);
+
+      res.status(200).json(result);
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(404).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    }
+  }
+
+  async markQuizCompleted(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        res.status(400).json({ error: 'User ID is required' });
+        return;
+      }
+
+      await this.markQuizCompletedUseCase.execute(id);
 
       res.status(204).send();
     } catch (error) {
