@@ -193,4 +193,58 @@ describe('InMemoryUserRepository', () => {
       expect(foundUser?.getName()).toBe('Jane Doe');
     });
   });
+
+  describe('delete', () => {
+    it('should delete user when user exists', async () => {
+      const User = (await import('../../src/domain/entities/User.js')).default;
+      
+      const user = new User({
+        id: '123',
+        name: 'John Doe',
+        email: 'john@example.com',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+
+      await repository.save(user);
+      await repository.delete('123');
+
+      const foundUser = await repository.findById('123');
+      expect(foundUser).toBe(null);
+    });
+
+    it('should do nothing when deleting non-existent user', async () => {
+      await repository.delete('non-existent-id');
+      const users = await repository.findAll();
+      expect(users).toEqual([]);
+    });
+
+    it('should only delete specified user', async () => {
+      const User = (await import('../../src/domain/entities/User.js')).default;
+      
+      const user1 = new User({
+        id: '123',
+        name: 'User One',
+        email: 'user1@example.com',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+
+      const user2 = new User({
+        id: '456',
+        name: 'User Two',
+        email: 'user2@example.com',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+
+      await repository.save(user1);
+      await repository.save(user2);
+      await repository.delete('123');
+
+      const remainingUsers = await repository.findAll();
+      expect(remainingUsers).toHaveLength(1);
+      expect(remainingUsers[0]?.getId()).toBe('456');
+    });
+  });
 });
