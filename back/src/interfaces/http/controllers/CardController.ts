@@ -40,9 +40,7 @@ export class CardController {
         question: card.getQuestion(),
         answer: card.getAnswer(),
         category: card.getCategory(),
-        tag: card.getTag(),
-        createdAt: card.getCreatedAt(),
-        lastReviewedAt: card.getLastReviewedAt()
+        tag: card.getTag()
       });
     } catch (error) {
       if (error instanceof Error) {
@@ -69,9 +67,7 @@ export class CardController {
         question: card.getQuestion(),
         answer: card.getAnswer(),
         category: card.getCategory(),
-        tag: card.getTag(),
-        createdAt: card.getCreatedAt(),
-        lastReviewedAt: card.getLastReviewedAt()
+        tag: card.getTag()
       });
     } catch (error) {
       if (error instanceof Error) {
@@ -110,9 +106,7 @@ export class CardController {
           question: card.getQuestion(),
           answer: card.getAnswer(),
           category: card.getCategory(),
-          tag: card.getTag(),
-          createdAt: card.getCreatedAt(),
-          lastReviewedAt: card.getLastReviewedAt()
+          tag: card.getTag()
         }))
       );
     } catch (error) {
@@ -133,9 +127,7 @@ export class CardController {
           question: card.getQuestion(),
           answer: card.getAnswer(),
           category: card.getCategory(),
-          tag: card.getTag(),
-          createdAt: card.getCreatedAt(),
-          lastReviewedAt: card.getLastReviewedAt()
+          tag: card.getTag()
         }))
       );
     } catch (error) {
@@ -198,9 +190,7 @@ export class CardController {
         question: card.getQuestion(),
         answer: card.getAnswer(),
         category: card.getCategory(),
-        tag: card.getTag(),
-        createdAt: card.getCreatedAt(),
-        lastReviewedAt: card.getLastReviewedAt()
+        tag: card.getTag()
       });
     } catch (error) {
       if (error instanceof Error) {
@@ -254,9 +244,7 @@ export class CardController {
         question: card.getQuestion(),
         answer: card.getAnswer(),
         category: card.getCategory(),
-        tag: card.getTag(),
-        createdAt: card.getCreatedAt(),
-        lastReviewedAt: card.getLastReviewedAt()
+        tag: card.getTag()
       });
     } catch (error) {
       if (error instanceof Error) {
