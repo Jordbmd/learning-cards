@@ -223,7 +223,7 @@ describe('Card', () => {
       const card = new Card(validProps);
       card.answerCorrectly();
       expect(card.getCategory()).toBe(2);
-      expect(card.getLastReviewedAt()).not.toBeNull();
+      expect(card.getLastReviewedAt()).toBeTruthy();
     });
 
     it('should move card from category 6 to category 7', () => {
@@ -255,7 +255,7 @@ describe('Card', () => {
       const card = new Card(props);
       card.answerIncorrectly();
       expect(card.getCategory()).toBe(1);
-      expect(card.getLastReviewedAt()).not.toBeNull();
+      expect(card.getLastReviewedAt()).toBeTruthy();
     });
 
     it('should reset card to category 1 from category 7', () => {
