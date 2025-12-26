@@ -5,13 +5,14 @@ import pool from '../database/pool.js';
 export class PostgresUserRepository implements IUserRepository {
   async save(user: User): Promise<void> {
     const query = `
-      INSERT INTO users (id, name, email, created_at, updated_at)
-      VALUES ($1, $2, $3, $4, $5)
+      INSERT INTO users (id, name, email, created_at, updated_at, last_quiz_date)
+      VALUES ($1, $2, $3, $4, $5, $6)
       ON CONFLICT (id) 
       DO UPDATE SET 
         name = EXCLUDED.name,
         email = EXCLUDED.email,
-        updated_at = EXCLUDED.updated_at
+        updated_at = EXCLUDED.updated_at,
+        last_quiz_date = EXCLUDED.last_quiz_date
     `;
 
     const values = [
@@ -20,6 +21,7 @@ export class PostgresUserRepository implements IUserRepository {
       user.getEmail(),
       user.getCreatedAt(),
       user.getUpdatedAt(),
+      user.getLastQuizDate(),
     ];
 
     await pool.query(query, values);
@@ -66,6 +68,7 @@ export class PostgresUserRepository implements IUserRepository {
       email: row.email,
       createdAt: new Date(row.created_at),
       updatedAt: new Date(row.updated_at),
+      lastQuizDate: row.last_quiz_date ? new Date(row.last_quiz_date) : null,
     });
   }
 }

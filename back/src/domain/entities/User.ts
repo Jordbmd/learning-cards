@@ -4,6 +4,7 @@ export interface UserProps {
   email: string;
   createdAt: Date;
   updatedAt: Date;
+  lastQuizDate: Date | null;
 }
 
 export default class User {
@@ -32,6 +33,29 @@ export default class User {
 
   getUpdatedAt(): Date {
     return this.props.updatedAt;
+  }
+
+  getLastQuizDate(): Date | null {
+    return this.props.lastQuizDate;
+  }
+
+  hasCompletedQuizToday(): boolean {
+    if (!this.props.lastQuizDate) {
+      return false;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const lastQuiz = new Date(this.props.lastQuizDate);
+    lastQuiz.setHours(0, 0, 0, 0);
+
+    return today.getTime() === lastQuiz.getTime();
+  }
+
+  markQuizCompleted(): void {
+    this.props.lastQuizDate = new Date();
+    this.props.updatedAt = new Date();
   }
 
   updateName(name: string): void {
