@@ -77,6 +77,24 @@ export default class Card {
     return this.props.category === 7;
   }
 
+  answerCorrectly(): void {
+    if (this.props.category >= 7) {
+      this.props.category = 8;
+    } else {
+      this.props.category += 1;
+    }
+    this.props.lastReviewedAt = new Date();
+  }
+
+  answerIncorrectly(): void {
+    this.props.category = 1;
+    this.props.lastReviewedAt = new Date();
+  }
+
+  isDone(): boolean {
+    return this.props.category === 8;
+  }
+
   private validate(props: CardProps): void {
     if (!props.id?.trim()) {
       throw new Error('Card id is required');
@@ -91,8 +109,8 @@ export default class Card {
   }
 
   private validateCategory(category: number): void {
-    if (!Number.isInteger(category) || category < 1 || category > 7) {
-      throw new Error('Card category must be between 1 and 7');
+    if (!Number.isInteger(category) || category < 1 || category > 8) {
+      throw new Error('Card category must be between 1 and 8');
     }
   }
 }

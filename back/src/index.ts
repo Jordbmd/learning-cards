@@ -7,6 +7,7 @@ import { GetAllCards } from './application/usecases/GetAllCards.js';
 import { ReviewCard } from './application/usecases/ReviewCard.js';
 import { DeleteCard } from './application/usecases/DeleteCard.js';
 import { GetQuizzCards } from './application/usecases/GetQuizzCards.js';
+import { AnswerCard } from './application/usecases/AnswerCard.js';
 import { CardController } from './interfaces/http/controllers/CardController.js';
 import { createCardRoutes } from './interfaces/http/routes/cardRoutes.js';
 
@@ -24,7 +25,8 @@ const getAllCards = new GetAllCards(repository);
 const reviewCard = new ReviewCard(repository);
 const deleteCard = new DeleteCard(repository);
 const getQuizzCards = new GetQuizzCards(repository);
-const cardController = new CardController(createCard, getCard, getAllCards, reviewCard, deleteCard, getQuizzCards);
+const answerCard = new AnswerCard(repository);
+const cardController = new CardController(createCard, getCard, getAllCards, reviewCard, deleteCard, getQuizzCards, answerCard);
 const cardRoutes = createCardRoutes(cardController);
 
 app.use('/api', cardRoutes);

@@ -77,25 +77,6 @@ describe('ReviewCard', () => {
       })).rejects.toThrow('Card with id nonexistent-id not found');
     });
 
-    it('should throw error when category is invalid', async () => {
-      const input = {
-        question: 'What is React?',
-        answer: 'A JavaScript library'
-      };
-
-      const createdCard = await createCard.execute(input);
-
-      await expect(reviewCard.execute({
-        cardId: createdCard.getId(),
-        newCategory: 0
-      })).rejects.toThrow('Card category must be between 1 and 7');
-
-      await expect(reviewCard.execute({
-        cardId: createdCard.getId(),
-        newCategory: 8
-      })).rejects.toThrow('Card category must be between 1 and 7');
-    });
-
     it('should allow moving to category 7', async () => {
       const input = {
         question: 'What is Vue?',

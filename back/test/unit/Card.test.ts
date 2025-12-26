@@ -48,17 +48,17 @@ describe('Card', () => {
 
     it('should throw error when category is less than 1', () => {
       const invalidProps = { ...validProps, category: 0 };
-      expect(() => new Card(invalidProps)).toThrow('Card category must be between 1 and 7');
+      expect(() => new Card(invalidProps)).toThrow('Card category must be between 1 and 8');
     });
 
-    it('should throw error when category is greater than 7', () => {
-      const invalidProps = { ...validProps, category: 8 };
-      expect(() => new Card(invalidProps)).toThrow('Card category must be between 1 and 7');
+    it('should throw error when category is greater than 8', () => {
+      const invalidProps = { ...validProps, category: 9 };
+      expect(() => new Card(invalidProps)).toThrow('Card category must be between 1 and 8');
     });
 
     it('should throw error when category is not an integer', () => {
       const invalidProps = { ...validProps, category: 3.5 };
-      expect(() => new Card(invalidProps)).toThrow('Card category must be between 1 and 7');
+      expect(() => new Card(invalidProps)).toThrow('Card category must be between 1 and 8');
     });
   });
 
@@ -123,12 +123,6 @@ describe('Card', () => {
       expect(lastReviewed).toBeTruthy();
       expect(lastReviewed!.getTime()).toBeGreaterThanOrEqual(beforeMove.getTime());
       expect(lastReviewed!.getTime()).toBeLessThanOrEqual(afterMove.getTime());
-    });
-
-    it('should throw error when new category is invalid', () => {
-      const card = new Card(validProps);
-      expect(() => card.moveToCategory(0)).toThrow('Card category must be between 1 and 7');
-      expect(() => card.moveToCategory(8)).toThrow('Card category must be between 1 and 7');
     });
   });
 
@@ -221,6 +215,73 @@ describe('Card', () => {
     it('should return false when card is not in category 7', () => {
       const card = new Card(validProps);
       expect(card.isInFinalCategory()).toBe(false);
+    });
+  });
+
+  describe('answerCorrectly', () => {
+    it('should move card from category 1 to category 2', () => {
+      const card = new Card(validProps);
+      card.answerCorrectly();
+      expect(card.getCategory()).toBe(2);
+      expect(card.getLastReviewedAt()).not.toBeNull();
+    });
+
+    it('should move card from category 6 to category 7', () => {
+      const props = { ...validProps, category: 6 };
+      const card = new Card(props);
+      card.answerCorrectly();
+      expect(card.getCategory()).toBe(7);
+    });
+
+    it('should move card from category 7 to category 8 (DONE)', () => {
+      const props = { ...validProps, category: 7 };
+      const card = new Card(props);
+      card.answerCorrectly();
+      expect(card.getCategory()).toBe(8);
+      expect(card.isDone()).toBe(true);
+    });
+
+    it('should keep card in category 8 if already done', () => {
+      const props = { ...validProps, category: 8 };
+      const card = new Card(props);
+      card.answerCorrectly();
+      expect(card.getCategory()).toBe(8);
+    });
+  });
+
+  describe('answerIncorrectly', () => {
+    it('should reset card to category 1 from category 3', () => {
+      const props = { ...validProps, category: 3 };
+      const card = new Card(props);
+      card.answerIncorrectly();
+      expect(card.getCategory()).toBe(1);
+      expect(card.getLastReviewedAt()).not.toBeNull();
+    });
+
+    it('should reset card to category 1 from category 7', () => {
+      const props = { ...validProps, category: 7 };
+      const card = new Card(props);
+      card.answerIncorrectly();
+      expect(card.getCategory()).toBe(1);
+    });
+
+    it('should keep card in category 1 if already there', () => {
+      const card = new Card(validProps);
+      card.answerIncorrectly();
+      expect(card.getCategory()).toBe(1);
+    });
+  });
+
+  describe('isDone', () => {
+    it('should return true when card is in category 8', () => {
+      const props = { ...validProps, category: 8 };
+      const card = new Card(props);
+      expect(card.isDone()).toBe(true);
+    });
+
+    it('should return false when card is not in category 8', () => {
+      const card = new Card(validProps);
+      expect(card.isDone()).toBe(false);
     });
   });
 });

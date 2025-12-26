@@ -5,6 +5,7 @@ import { GetAllCards } from '../../../application/usecases/GetAllCards.js';
 import { ReviewCard } from '../../../application/usecases/ReviewCard.js';
 import { DeleteCard } from '../../../application/usecases/DeleteCard.js';
 import { GetQuizzCards } from '../../../application/usecases/GetQuizzCards.js';
+import { AnswerCard } from '../../../application/usecases/AnswerCard.js';
 
 export class CardController {
   constructor(
@@ -13,7 +14,8 @@ export class CardController {
     private readonly getAllCards: GetAllCards,
     private readonly reviewCard: ReviewCard,
     private readonly deleteCard: DeleteCard,
-    private readonly getQuizzCards: GetQuizzCards
+    private readonly getQuizzCards: GetQuizzCards,
+    private readonly answerCard: AnswerCard
   ) {}
 
   async create(req: Request, res: Response): Promise<void> {
@@ -136,6 +138,36 @@ export class CardController {
       );
     } catch (error) {
       res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+
+  async answer(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const { isValid } = req.body;
+
+      if (!id) {
+        res.status(400).json({ error: 'Card ID is required' });
+        return;
+      }
+
+      if (typeof isValid !== 'boolean') {
+        res.status(400).json({ error: 'isValid is required and must be a boolean' });
+        return;
+      }
+
+      await this.answerCard.execute({
+        cardId: id,
+        isValid
+      });
+
+      res.status(204).send();
+    } catch (error) {
+      if (error instanceof Error) {
+        res.status(404).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Internal server error' });
+      }
     }
   }
 
