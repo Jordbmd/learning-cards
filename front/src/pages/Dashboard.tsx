@@ -72,7 +72,7 @@ function Dashboard() {
           <div className="actions-section">
             <h3>Actions rapides</h3>
             <div className="actions-grid">
-              <button className="action-btn" disabled>
+              <button className="action-btn" onClick={() => navigate('/cards/create')}>
                 <AddIcon className="action-icon" />
                 <span className="action-text">Créer une carte</span>
               </button>
