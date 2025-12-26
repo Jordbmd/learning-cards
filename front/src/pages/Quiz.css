@@ -1,0 +1,162 @@
+.quiz-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.quiz-header {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.quiz-header h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.progress {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.card-display {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.category-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #667eea;
+  color: white;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+.question-section,
+.answer-section {
+  margin-bottom: 2rem;
+}
+
+.question-section h2,
+.answer-section h2 {
+  color: #333;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.question-section p,
+.answer-section p {
+  color: #555;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.answer-section {
+  border-top: 2px solid #f0f0f0;
+  padding-top: 1.5rem;
+}
+
+.quiz-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn-show-answer {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.btn-show-answer:hover {
+  background: #5568d3;
+}
+
+.answer-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-wrong,
+.btn-correct {
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.btn-wrong {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-wrong:hover {
+  background: #dc2626;
+}
+
+.btn-correct {
+  background: #10b981;
+  color: white;
+}
+
+.btn-correct:hover {
+  background: #059669;
+}
+
+.loading,
+.error-message,
+.empty-state {
+  color: white;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.empty-state h2 {
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.btn-back {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  background: white;
+  color: #667eea;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+.btn-back:hover {
+  background: #f0f0f0;
+}

@@ -80,7 +80,7 @@ function Dashboard() {
                 <MenuBookIcon className="action-icon" />
                 <span className="action-text">Mes cartes</span>
               </button>
-              <button className="action-btn" disabled>
+              <button className="action-btn" onClick={() => navigate('/quiz')}>
                 <TrackChangesIcon className="action-icon" />
                 <span className="action-text">Réviser</span>
               </button>

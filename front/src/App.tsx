@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import CreateCard from './pages/CreateCard'
 import MyCards from './pages/MyCards'
+import Quiz from './pages/Quiz'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/cards/create" element={<CreateCard />} />
         <Route path="/cards" element={<MyCards />} />
+        <Route path="/quiz" element={<Quiz />} />
       </Routes>
     </BrowserRouter>
   )
