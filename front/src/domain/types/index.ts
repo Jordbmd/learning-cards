@@ -1,10 +1,11 @@
 export type {
     Card,
     CreateCardDTO,
-    UpdateCardDTO,
-    ReviewCardDTO,
     GetCardsFilters,
     GetQuizzParams,
+    AnswerCardDTO,
 } from './Card';
 
 export type { User } from './User';
+
+export { Category, getCategoryLabel, CATEGORY_LABELS } from './Category';

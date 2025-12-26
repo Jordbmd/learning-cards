@@ -1,36 +1,27 @@
+import { Category } from './Category';
+
 export interface Card {
     id: string;
     question: string;
     answer: string;
-    category: number;
-    tags: string[];
-    createdAt: string;
-    lastReviewedAt: string | null;
+    category: Category;
+    tag?: string;
 }
 
 export interface CreateCardDTO { 
     question: string;
     answer: string;
-    tags?: string[];
-}
-
-export interface UpdateCardDTO {
-    question?: string;
-    answer?: string;
-    tags?: string[];
-}
-
-export interface ReviewCardDTO {
-    newCategory: number;
+    tag?: string;
 }
 
 export interface GetCardsFilters {
-    category?: number;
     tags?: string[];
-    fromDate?: string;
-    toDate?: string;
 }
 
 export interface GetQuizzParams {
     date?: string;
+}
+
+export interface AnswerCardDTO {
+    isValid: boolean;
 }

@@ -8,7 +8,7 @@ function CreateCard() {
   const [formData, setFormData] = useState({
     question: '',
     answer: '',
-    tags: ''
+    tag: ''
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -25,14 +25,10 @@ function CreateCard() {
     setIsLoading(true);
 
     try {
-      const tags = formData.tags
-        ? formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
-        : undefined;
-
       await cardService.createCard({
         question: formData.question,
         answer: formData.answer,
-        tags
+        tag: formData.tag || undefined
       });
 
       navigate('/dashboard');
@@ -74,13 +70,13 @@ function CreateCard() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="tags">Tags (optionnel)</label>
+            <label htmlFor="tag">Tag (optionnel)</label>
             <input
               type="text"
-              id="tags"
-              value={formData.tags}
-              onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-              placeholder="Ex: javascript, react, frontend (séparés par des virgules)"
+              id="tag"
+              value={formData.tag}
+              onChange={(e) => setFormData({ ...formData, tag: e.target.value })}
+              placeholder="Ex: javascript"
               disabled={isLoading}
             />
           </div>

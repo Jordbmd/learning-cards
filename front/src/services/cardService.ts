@@ -1,5 +1,5 @@
 import { API_BASE_URL } from '../config/constants';
-import type { Card, CreateCardDTO, UpdateCardDTO, ReviewCardDTO, GetCardsFilters, GetQuizzParams } from '../domain/types';
+import type { Card, CreateCardDTO, GetCardsFilters, GetQuizzParams } from '../domain/types';
 
 class CardService {
   async createCard(data: CreateCardDTO): Promise<Card> {
@@ -18,36 +18,11 @@ class CardService {
     return response.json();
   }
 
-  async getCardById(id: string): Promise<Card> {
-    const response = await fetch(`${API_BASE_URL}/cards/${id}`);
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        throw new Error('Carte non trouvée');
-      }
-      throw new Error('Erreur lors de la récupération de la carte');
-    }
-
-    return response.json();
-  }
-
   async getAllCards(filters?: GetCardsFilters): Promise<Card[]> {
     const params = new URLSearchParams();
 
-    if (filters?.category !== undefined) {
-      params.append('category', filters.category.toString());
-    }
-
     if (filters?.tags && filters.tags.length > 0) {
       params.append('tags', filters.tags.join(','));
-    }
-
-    if (filters?.fromDate) {
-      params.append('fromDate', filters.fromDate);
-    }
-
-    if (filters?.toDate) {
-      params.append('toDate', filters.toDate);
     }
 
     const url = `${API_BASE_URL}/cards${params.toString() ? `?${params.toString()}` : ''}`;
@@ -92,57 +67,6 @@ class CardService {
       }
       throw new Error('Erreur lors de la réponse à la carte');
     }
-  }
-
-  async reviewCard(cardId: string, data: ReviewCardDTO): Promise<Card> {
-    const response = await fetch(`${API_BASE_URL}/cards/${cardId}/review`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        throw new Error('Carte non trouvée');
-      }
-      throw new Error('Erreur lors de la révision de la carte');
-    }
-
-    return response.json();
-  }
-
-  async deleteCard(cardId: string): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/cards/${cardId}`, {
-      method: 'DELETE',
-    });
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        throw new Error('Carte non trouvée');
-      }
-      throw new Error('Erreur lors de la suppression de la carte');
-    }
-  }
-
-  async updateCard(cardId: string, data: UpdateCardDTO): Promise<Card> {
-    const response = await fetch(`${API_BASE_URL}/cards/${cardId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        throw new Error('Carte non trouvée');
-      }
-      throw new Error('Erreur lors de la mise à jour de la carte');
-    }
-
-    return response.json();
   }
 }
 
