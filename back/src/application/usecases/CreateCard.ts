@@ -1,6 +1,7 @@
 import { randomUUID } from 'crypto';
 import Card from '../../domain/entities/Card.js';
 import { ICardRepository } from '../../domain/repositories/ICardRepository.js';
+import { Category } from '../../domain/entities/Category.js';
 
 export interface CreateCardInput {
   question: string;
@@ -16,7 +17,7 @@ export class CreateCard {
       id: randomUUID(),
       question: input.question,
       answer: input.answer,
-      category: 1,
+      category: Category.FIRST,
       tags: input.tags || [],
       createdAt: new Date(),
       lastReviewedAt: null

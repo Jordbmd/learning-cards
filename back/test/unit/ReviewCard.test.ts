@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { ReviewCard } from '../../src/application/usecases/ReviewCard.js';
 import { CreateCard } from '../../src/application/usecases/CreateCard.js';
 import { InMemoryCardRepository } from '../../src/infrastructure/repositories/InMemoryCardRepository.js';
+import { Category } from '../../src/domain/entities/Category.js';
 
 describe('ReviewCard', () => {
   let reviewCard: ReviewCard;
@@ -22,14 +23,14 @@ describe('ReviewCard', () => {
       };
 
       const createdCard = await createCard.execute(input);
-      expect(createdCard.getCategory()).toBe(1);
+      expect(createdCard.getCategory()).toBe(Category.FIRST);
 
       const updatedCard = await reviewCard.execute({
         cardId: createdCard.getId(),
-        newCategory: 3
+        newCategory: Category.THIRD
       });
 
-      expect(updatedCard.getCategory()).toBe(3);
+      expect(updatedCard.getCategory()).toBe(Category.THIRD);
     });
 
     it('should update lastReviewedAt when reviewing', async () => {
@@ -44,7 +45,7 @@ describe('ReviewCard', () => {
       const beforeReview = new Date();
       const updatedCard = await reviewCard.execute({
         cardId: createdCard.getId(),
-        newCategory: 2
+        newCategory: Category.SECOND
       });
       const afterReview = new Date();
 
@@ -63,17 +64,17 @@ describe('ReviewCard', () => {
       const createdCard = await createCard.execute(input);
       await reviewCard.execute({
         cardId: createdCard.getId(),
-        newCategory: 5
+        newCategory: Category.FIFTH
       });
 
       const foundCard = await repository.findById(createdCard.getId());
-      expect(foundCard?.getCategory()).toBe(5);
+      expect(foundCard?.getCategory()).toBe(Category.FIFTH);
     });
 
     it('should throw error when card does not exist', async () => {
       await expect(reviewCard.execute({
         cardId: 'nonexistent-id',
-        newCategory: 2
+        newCategory: Category.SECOND
       })).rejects.toThrow('Card with id nonexistent-id not found');
     });
 
@@ -86,10 +87,10 @@ describe('ReviewCard', () => {
       const createdCard = await createCard.execute(input);
       const updatedCard = await reviewCard.execute({
         cardId: createdCard.getId(),
-        newCategory: 7
+        newCategory: Category.SEVENTH
       });
 
-      expect(updatedCard.getCategory()).toBe(7);
+      expect(updatedCard.getCategory()).toBe(Category.SEVENTH);
       expect(updatedCard.isInFinalCategory()).toBe(true);
     });
   });

@@ -1,5 +1,6 @@
 import Card from '../../domain/entities/Card.js';
 import { ICardRepository } from '../../domain/repositories/ICardRepository.js';
+import { Category } from '../../domain/entities/Category.js';
 
 export class InMemoryCardRepository implements ICardRepository {
   private cards: Map<string, Card> = new Map();
@@ -12,7 +13,7 @@ export class InMemoryCardRepository implements ICardRepository {
     return this.cards.get(id) || null;
   }
 
-  async findAll(filters?: { category?: number; tags?: string[]; fromDate?: Date; toDate?: Date }): Promise<Card[]> {
+  async findAll(filters?: { category?: Category; tags?: string[]; fromDate?: Date; toDate?: Date }): Promise<Card[]> {
     let cards = Array.from(this.cards.values());
 
     if (filters?.category) {

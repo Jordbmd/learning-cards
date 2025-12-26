@@ -1,9 +1,10 @@
 import Card from '../../domain/entities/Card.js';
 import { ICardRepository } from '../../domain/repositories/ICardRepository.js';
+import { Category } from '../../domain/entities/Category.js';
 
 export interface ReviewCardInput {
   cardId: string;
-  newCategory: number;
+  newCategory: Category;
 }
 
 export class ReviewCard {

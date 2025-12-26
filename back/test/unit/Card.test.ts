@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import Card, { CardProps } from '../../src/domain/entities/Card.js';
+import { Category } from '../../src/domain/entities/Category.js';
 
 describe('Card', () => {
   let validProps: CardProps;
@@ -9,7 +10,7 @@ describe('Card', () => {
       id: '123',
       question: 'What is TypeScript?',
       answer: 'A typed superset of JavaScript',
-      category: 1,
+      category: Category.FIRST,
       tags: ['programming', 'typescript'],
       createdAt: new Date('2024-01-01'),
       lastReviewedAt: null
@@ -22,7 +23,7 @@ describe('Card', () => {
       expect(card.getId()).toBe('123');
       expect(card.getQuestion()).toBe('What is TypeScript?');
       expect(card.getAnswer()).toBe('A typed superset of JavaScript');
-      expect(card.getCategory()).toBe(1);
+      expect(card.getCategory()).toBe(Category.FIRST);
       expect(card.getTags()).toEqual(['programming', 'typescript']);
     });
 
@@ -45,21 +46,6 @@ describe('Card', () => {
       const invalidProps = { ...validProps, answer: '' };
       expect(() => new Card(invalidProps)).toThrow('Card answer is required');
     });
-
-    it('should throw error when category is less than 1', () => {
-      const invalidProps = { ...validProps, category: 0 };
-      expect(() => new Card(invalidProps)).toThrow('Card category must be between 1 and 8');
-    });
-
-    it('should throw error when category is greater than 8', () => {
-      const invalidProps = { ...validProps, category: 9 };
-      expect(() => new Card(invalidProps)).toThrow('Card category must be between 1 and 8');
-    });
-
-    it('should throw error when category is not an integer', () => {
-      const invalidProps = { ...validProps, category: 3.5 };
-      expect(() => new Card(invalidProps)).toThrow('Card category must be between 1 and 8');
-    });
   });
 
   describe('getters', () => {
@@ -80,7 +66,7 @@ describe('Card', () => {
 
     it('should return correct category', () => {
       const card = new Card(validProps);
-      expect(card.getCategory()).toBe(1);
+      expect(card.getCategory()).toBe(Category.FIRST);
     });
 
     it('should return correct tags', () => {
@@ -109,14 +95,14 @@ describe('Card', () => {
   describe('moveToCategory', () => {
     it('should move card to new category', () => {
       const card = new Card(validProps);
-      card.moveToCategory(3);
-      expect(card.getCategory()).toBe(3);
+      card.moveToCategory(Category.THIRD);
+      expect(card.getCategory()).toBe(Category.THIRD);
     });
 
     it('should update lastReviewedAt when moving category', () => {
       const card = new Card(validProps);
       const beforeMove = new Date();
-      card.moveToCategory(2);
+      card.moveToCategory(Category.SECOND);
       const afterMove = new Date();
       
       const lastReviewed = card.getLastReviewedAt();
@@ -128,10 +114,10 @@ describe('Card', () => {
 
   describe('resetToCategory1', () => {
     it('should reset card to category 1', () => {
-      const props = { ...validProps, category: 5 };
+      const props = { ...validProps, category: Category.FIFTH };
       const card = new Card(props);
       card.resetToCategory1();
-      expect(card.getCategory()).toBe(1);
+      expect(card.getCategory()).toBe(Category.FIRST);
     });
 
     it('should update lastReviewedAt when resetting', () => {
@@ -207,7 +193,7 @@ describe('Card', () => {
 
   describe('isInFinalCategory', () => {
     it('should return true when card is in category 7', () => {
-      const props = { ...validProps, category: 7 };
+      const props = { ...validProps, category: Category.SEVENTH };
       const card = new Card(props);
       expect(card.isInFinalCategory()).toBe(true);
     });
@@ -222,59 +208,59 @@ describe('Card', () => {
     it('should move card from category 1 to category 2', () => {
       const card = new Card(validProps);
       card.answerCorrectly();
-      expect(card.getCategory()).toBe(2);
+      expect(card.getCategory()).toBe(Category.SECOND);
       expect(card.getLastReviewedAt()).toBeTruthy();
     });
 
     it('should move card from category 6 to category 7', () => {
-      const props = { ...validProps, category: 6 };
+      const props = { ...validProps, category: Category.SIXTH };
       const card = new Card(props);
       card.answerCorrectly();
-      expect(card.getCategory()).toBe(7);
+      expect(card.getCategory()).toBe(Category.SEVENTH);
     });
 
     it('should move card from category 7 to category 8 (DONE)', () => {
-      const props = { ...validProps, category: 7 };
+      const props = { ...validProps, category: Category.SEVENTH };
       const card = new Card(props);
       card.answerCorrectly();
-      expect(card.getCategory()).toBe(8);
+      expect(card.getCategory()).toBe(Category.DONE);
       expect(card.isDone()).toBe(true);
     });
 
     it('should keep card in category 8 if already done', () => {
-      const props = { ...validProps, category: 8 };
+      const props = { ...validProps, category: Category.DONE };
       const card = new Card(props);
       card.answerCorrectly();
-      expect(card.getCategory()).toBe(8);
+      expect(card.getCategory()).toBe(Category.DONE);
     });
   });
 
   describe('answerIncorrectly', () => {
     it('should reset card to category 1 from category 3', () => {
-      const props = { ...validProps, category: 3 };
+      const props = { ...validProps, category: Category.THIRD };
       const card = new Card(props);
       card.answerIncorrectly();
-      expect(card.getCategory()).toBe(1);
+      expect(card.getCategory()).toBe(Category.FIRST);
       expect(card.getLastReviewedAt()).toBeTruthy();
     });
 
     it('should reset card to category 1 from category 7', () => {
-      const props = { ...validProps, category: 7 };
+      const props = { ...validProps, category: Category.SEVENTH };
       const card = new Card(props);
       card.answerIncorrectly();
-      expect(card.getCategory()).toBe(1);
+      expect(card.getCategory()).toBe(Category.FIRST);
     });
 
     it('should keep card in category 1 if already there', () => {
       const card = new Card(validProps);
       card.answerIncorrectly();
-      expect(card.getCategory()).toBe(1);
+      expect(card.getCategory()).toBe(Category.FIRST);
     });
   });
 
   describe('isDone', () => {
     it('should return true when card is in category 8', () => {
-      const props = { ...validProps, category: 8 };
+      const props = { ...validProps, category: Category.DONE };
       const card = new Card(props);
       expect(card.isDone()).toBe(true);
     });

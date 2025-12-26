@@ -1,8 +1,10 @@
+import { Category, getNextCategory, isValidCategory } from './Category.js';
+
 export interface CardProps {
   id: string;
   question: string;
   answer: string;
-  category: number;
+  category: Category;
   tags: string[];
   createdAt: Date;
   lastReviewedAt: Date | null;
@@ -28,7 +30,7 @@ export default class Card {
     return this.props.answer;
   }
 
-  getCategory(): number {
+  getCategory(): Category {
     return this.props.category;
   }
 
@@ -44,7 +46,7 @@ export default class Card {
     return this.props.lastReviewedAt;
   }
 
-  moveToCategory(newCategory: number): void {
+  moveToCategory(newCategory: Category): void {
     this.validateCategory(newCategory);
     this.props.category = newCategory;
     this.props.lastReviewedAt = new Date();
@@ -67,7 +69,7 @@ export default class Card {
   }
 
   resetToCategory1(): void {
-    this.props.category = 1;
+    this.props.category = Category.FIRST;
     this.props.lastReviewedAt = new Date();
   }
 
@@ -90,25 +92,22 @@ export default class Card {
   }
 
   isInFinalCategory(): boolean {
-    return this.props.category === 7;
+    return this.props.category === Category.SEVENTH;
   }
 
   answerCorrectly(): void {
-    if (this.props.category >= 7) {
-      this.props.category = 8;
-    } else {
-      this.props.category += 1;
-    }
+    const nextCategory = getNextCategory(this.props.category);
+    this.props.category = nextCategory;
     this.props.lastReviewedAt = new Date();
   }
 
   answerIncorrectly(): void {
-    this.props.category = 1;
+    this.props.category = Category.FIRST;
     this.props.lastReviewedAt = new Date();
   }
 
   isDone(): boolean {
-    return this.props.category === 8;
+    return this.props.category === Category.DONE;
   }
 
   private validate(props: CardProps): void {
@@ -124,9 +123,9 @@ export default class Card {
     this.validateCategory(props.category);
   }
 
-  private validateCategory(category: number): void {
-    if (!Number.isInteger(category) || category < 1 || category > 8) {
-      throw new Error('Card category must be between 1 and 8');
+  private validateCategory(category: Category): void {
+    if (!isValidCategory(category)) {
+      throw new Error('Invalid card category');
     }
   }
 }

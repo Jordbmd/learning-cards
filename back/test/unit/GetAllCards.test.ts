@@ -3,6 +3,7 @@ import { GetAllCards } from '../../src/application/usecases/GetAllCards.js';
 import { CreateCard } from '../../src/application/usecases/CreateCard.js';
 import { ReviewCard } from '../../src/application/usecases/ReviewCard.js';
 import { InMemoryCardRepository } from '../../src/infrastructure/repositories/InMemoryCardRepository.js';
+import { Category } from '../../src/domain/entities/Category.js';
 
 describe('GetAllCards', () => {
   let getAllCards: GetAllCards;
@@ -52,7 +53,7 @@ describe('GetAllCards', () => {
       expect(cards[0]?.getQuestion()).toBe('What is Node.js?');
       expect(cards[0]?.getAnswer()).toBe('A JavaScript runtime');
       expect(cards[0]?.getTags()).toEqual(['programming', 'nodejs']);
-      expect(cards[0]?.getCategory()).toBe(1);
+      expect(cards[0]?.getCategory()).toBe(Category.FIRST);
     });
 
     it('should return multiple cards with different properties', async () => {
@@ -113,14 +114,14 @@ describe('GetAllCards', () => {
 
       if (firstCardId) {
         const reviewCard = new ReviewCard(repository);
-        await reviewCard.execute({ cardId: firstCardId, newCategory: 2 });
+        await reviewCard.execute({ cardId: firstCardId, newCategory: Category.SECOND });
       }
 
-      const category2Cards = await getAllCards.execute({ category: 2 });
+      const category2Cards = await getAllCards.execute({ category: Category.SECOND });
       expect(category2Cards).toHaveLength(1);
-      expect(category2Cards[0]?.getCategory()).toBe(2);
+      expect(category2Cards[0]?.getCategory()).toBe(Category.SECOND);
 
-      const category1Cards = await getAllCards.execute({ category: 1 });
+      const category1Cards = await getAllCards.execute({ category: Category.FIRST });
       expect(category1Cards).toHaveLength(2);
     });
 
@@ -189,11 +190,11 @@ describe('GetAllCards', () => {
 
       if (firstCardId) {
         const reviewCard = new ReviewCard(repository);
-        await reviewCard.execute({ cardId: firstCardId, newCategory: 3 });
+        await reviewCard.execute({ cardId: firstCardId, newCategory: Category.THIRD });
       }
 
       const cards = await getAllCards.execute({
-        category: 3,
+        category: Category.THIRD,
         tags: ['javascript']
       });
 

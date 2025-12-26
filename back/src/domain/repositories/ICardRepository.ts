@@ -1,7 +1,8 @@
 import Card from '../entities/Card.js';
+import { Category } from '../entities/Category.js';
 
 export interface CardFilters {
-  category?: number;
+  category?: Category;
   tags?: string[];
   fromDate?: Date;
   toDate?: Date;

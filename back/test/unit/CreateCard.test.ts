@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { CreateCard } from '../../src/application/usecases/CreateCard.js';
 import { InMemoryCardRepository } from '../../src/infrastructure/repositories/InMemoryCardRepository.js';
+import { Category } from '../../src/domain/entities/Category.js';
 
 describe('CreateCard', () => {
   let createCard: CreateCard;
@@ -22,7 +23,7 @@ describe('CreateCard', () => {
 
       expect(card.getQuestion()).toBe('What is TypeScript?');
       expect(card.getAnswer()).toBe('A typed superset of JavaScript');
-      expect(card.getCategory()).toBe(1);
+      expect(card.getCategory()).toBe(Category.FIRST);
       expect(card.getTags()).toEqual([]);
       expect(card.getLastReviewedAt()).toBeNull();
       expect(card.getId()).toBeTruthy();

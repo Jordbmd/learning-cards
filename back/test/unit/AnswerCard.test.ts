@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { AnswerCard } from '../../src/application/usecases/AnswerCard.js';
 import { InMemoryCardRepository } from '../../src/infrastructure/repositories/InMemoryCardRepository.js';
 import Card from '../../src/domain/entities/Card.js';
+import { Category } from '../../src/domain/entities/Category.js';
 
 describe('AnswerCard', () => {
   let answerCard: AnswerCard;
@@ -18,7 +19,7 @@ describe('AnswerCard', () => {
         id: '1',
         question: 'Question 1',
         answer: 'Answer 1',
-        category: 1,
+        category: Category.FIRST,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: null
@@ -27,8 +28,8 @@ describe('AnswerCard', () => {
       await repository.save(card);
       const result = await answerCard.execute({ cardId: '1', isValid: true });
 
-      expect(result.getCategory()).toBe(2);
-      expect(result.getLastReviewedAt()).not.toBeNull();
+      expect(result.getCategory()).toBe(Category.SECOND);
+      expect(result.getLastReviewedAt()).toBeTruthy();
     });
 
     it('should reset card to category 1 when answer is incorrect', async () => {
@@ -36,7 +37,7 @@ describe('AnswerCard', () => {
         id: '1',
         question: 'Question 1',
         answer: 'Answer 1',
-        category: 3,
+        category: Category.THIRD,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: new Date()
@@ -45,7 +46,7 @@ describe('AnswerCard', () => {
       await repository.save(card);
       const result = await answerCard.execute({ cardId: '1', isValid: false });
 
-      expect(result.getCategory()).toBe(1);
+      expect(result.getCategory()).toBe(Category.FIRST);
     });
 
     it('should move card from category 7 to category 8 when answer is correct', async () => {
@@ -53,7 +54,7 @@ describe('AnswerCard', () => {
         id: '1',
         question: 'Question 1',
         answer: 'Answer 1',
-        category: 7,
+        category: Category.SEVENTH,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: new Date()
@@ -71,7 +72,7 @@ describe('AnswerCard', () => {
         id: '1',
         question: 'Question 1',
         answer: 'Answer 1',
-        category: 7,
+        category: Category.SEVENTH,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: new Date()
@@ -80,7 +81,7 @@ describe('AnswerCard', () => {
       await repository.save(card);
       const result = await answerCard.execute({ cardId: '1', isValid: false });
 
-      expect(result.getCategory()).toBe(1);
+      expect(result.getCategory()).toBe(Category.FIRST);
     });
 
     it('should throw error when card is not found', async () => {
@@ -94,7 +95,7 @@ describe('AnswerCard', () => {
         id: '1',
         question: 'Question 1',
         answer: 'Answer 1',
-        category: 2,
+        category: Category.SECOND,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: null
@@ -104,7 +105,7 @@ describe('AnswerCard', () => {
       await answerCard.execute({ cardId: '1', isValid: true });
       
       const savedCard = await repository.findById('1');
-      expect(savedCard?.getCategory()).toBe(3);
+      expect(savedCard?.getCategory()).toBe(Category.THIRD);
     });
 
     it('should handle multiple incorrect answers correctly', async () => {
@@ -112,7 +113,7 @@ describe('AnswerCard', () => {
         id: '1',
         question: 'Question 1',
         answer: 'Answer 1',
-        category: 5,
+        category: Category.FIFTH,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: new Date()
@@ -122,7 +123,7 @@ describe('AnswerCard', () => {
       await answerCard.execute({ cardId: '1', isValid: false });
       const result = await answerCard.execute({ cardId: '1', isValid: false });
 
-      expect(result.getCategory()).toBe(1);
+      expect(result.getCategory()).toBe(Category.FIRST);
     });
 
     it('should handle category progression through multiple correct answers', async () => {
@@ -130,7 +131,7 @@ describe('AnswerCard', () => {
         id: '1',
         question: 'Question 1',
         answer: 'Answer 1',
-        category: 1,
+        category: Category.FIRST,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: null
@@ -142,7 +143,7 @@ describe('AnswerCard', () => {
       await answerCard.execute({ cardId: '1', isValid: true });
       const result = await answerCard.execute({ cardId: '1', isValid: true });
 
-      expect(result.getCategory()).toBe(4);
+      expect(result.getCategory()).toBe(Category.FOURTH);
     });
   });
 });

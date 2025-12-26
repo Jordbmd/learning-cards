@@ -1,5 +1,6 @@
-import { ICardRepository } from '../../domain/repositories/ICardRepository.js';
+import { ICardRepository, CardFilters } from '../../domain/repositories/ICardRepository.js';
 import Card from '../../domain/entities/Card.js';
+import { Category, getCategoryOrder } from '../../domain/entities/Category.js';
 import pool from '../database/pool.js';
 
 export class PostgresCardRepository implements ICardRepository {
@@ -20,7 +21,7 @@ export class PostgresCardRepository implements ICardRepository {
       card.getId(),
       card.getQuestion(),
       card.getAnswer(),
-      card.getCategory(),
+      getCategoryOrder(card.getCategory()),
       card.getTags(),
       card.getCreatedAt(),
       card.getLastReviewedAt(),
@@ -40,14 +41,14 @@ export class PostgresCardRepository implements ICardRepository {
     return this.mapRowToCard(result.rows[0]);
   }
 
-  async findAll(filters?: { category?: number; tags?: string[]; fromDate?: Date; toDate?: Date }): Promise<Card[]> {
+  async findAll(filters?: CardFilters): Promise<Card[]> {
     const conditions: string[] = [];
     const values: any[] = [];
     let paramCount = 1;
 
     if (filters?.category) {
       conditions.push(`category = $${paramCount}`);
-      values.push(filters.category);
+      values.push(getCategoryOrder(filters.category));
       paramCount++;
     }
 
@@ -83,11 +84,27 @@ export class PostgresCardRepository implements ICardRepository {
   }
 
   private mapRowToCard(row: any): Card {
+    const categoryMap: { [key: number]: Category } = {
+      1: Category.FIRST,
+      2: Category.SECOND,
+      3: Category.THIRD,
+      4: Category.FOURTH,
+      5: Category.FIFTH,
+      6: Category.SIXTH,
+      7: Category.SEVENTH,
+      8: Category.DONE,
+    };
+
+    const category = categoryMap[row.category];
+    if (!category) {
+      throw new Error(`Invalid category value in database: ${row.category}`);
+    }
+
     return new Card({
       id: row.id,
       question: row.question,
       answer: row.answer,
-      category: row.category,
+      category: category,
       tags: row.tags || [],
       createdAt: new Date(row.created_at),
       lastReviewedAt: row.last_reviewed_at ? new Date(row.last_reviewed_at) : null,

@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { GetQuizzCards } from '../../src/application/usecases/GetQuizzCards.js';
 import { InMemoryCardRepository } from '../../src/infrastructure/repositories/InMemoryCardRepository.js';
 import Card from '../../src/domain/entities/Card.js';
+import { Category } from '../../src/domain/entities/Category.js';
 
 describe('GetQuizzCards', () => {
   let getQuizzCards: GetQuizzCards;
@@ -18,7 +19,7 @@ describe('GetQuizzCards', () => {
         id: '1',
         question: 'Question 1',
         answer: 'Answer 1',
-        category: 7,
+        category: Category.SEVENTH,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: new Date()
@@ -38,7 +39,7 @@ describe('GetQuizzCards', () => {
         id: '1',
         question: 'Question 1',
         answer: 'Answer 1',
-        category: 1,
+        category: Category.FIRST,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: yesterday
@@ -57,7 +58,7 @@ describe('GetQuizzCards', () => {
         id: '1',
         question: 'Question 1',
         answer: 'Answer 1',
-        category: 1,
+        category: Category.FIRST,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: today
@@ -77,7 +78,7 @@ describe('GetQuizzCards', () => {
         id: '1',
         question: 'Question 1',
         answer: 'Answer 1',
-        category: 2,
+        category: Category.SECOND,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: twoDaysAgo
@@ -97,7 +98,7 @@ describe('GetQuizzCards', () => {
         id: '1',
         question: 'Question 1',
         answer: 'Answer 1',
-        category: 4,
+        category: Category.FOURTH,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: eightDaysAgo
@@ -120,7 +121,7 @@ describe('GetQuizzCards', () => {
         id: '1',
         question: 'Question 1',
         answer: 'Answer 1',
-        category: 1,
+        category: Category.FIRST,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: oneDayAgo
@@ -130,7 +131,7 @@ describe('GetQuizzCards', () => {
         id: '2',
         question: 'Question 2',
         answer: 'Answer 2',
-        category: 2,
+        category: Category.SECOND,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: today
@@ -140,7 +141,7 @@ describe('GetQuizzCards', () => {
         id: '3',
         question: 'Question 3',
         answer: 'Answer 3',
-        category: 2,
+        category: Category.SECOND,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: twoDaysAgo
@@ -165,7 +166,7 @@ describe('GetQuizzCards', () => {
         id: '1',
         question: 'Question 1',
         answer: 'Answer 1',
-        category: 1,
+        category: Category.FIRST,
         tags: [],
         createdAt: new Date(),
         lastReviewedAt: oneDayAgo

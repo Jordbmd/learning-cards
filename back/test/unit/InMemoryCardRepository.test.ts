@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { InMemoryCardRepository } from '../../src/infrastructure/repositories/InMemoryCardRepository.js';
 import Card, { CardProps } from '../../src/domain/entities/Card.js';
+import { Category } from '../../src/domain/entities/Category.js';
 
 describe('InMemoryCardRepository', () => {
   let repository: InMemoryCardRepository;
@@ -12,7 +13,7 @@ describe('InMemoryCardRepository', () => {
       id: '123',
       question: 'What is TypeScript?',
       answer: 'A typed superset of JavaScript',
-      category: 1,
+      category: Category.FIRST,
       tags: ['programming', 'typescript'],
       createdAt: new Date('2024-01-01'),
       lastReviewedAt: null
@@ -29,7 +30,7 @@ describe('InMemoryCardRepository', () => {
       const card = new Card(validCardProps);
       await repository.save(card);
 
-      card.moveToCategory(2);
+      card.moveToCategory(Category.SECOND);
       await repository.save(card);
     });
   });
@@ -54,11 +55,11 @@ describe('InMemoryCardRepository', () => {
       const card = new Card(validCardProps);
       await repository.save(card);
 
-      card.moveToCategory(3);
+      card.moveToCategory(Category.THIRD);
       await repository.save(card);
 
       const foundCard = await repository.findById('123');
-      expect(foundCard?.getCategory()).toBe(3);
+      expect(foundCard?.getCategory()).toBe(Category.THIRD);
     });
   });
 
@@ -91,12 +92,12 @@ describe('InMemoryCardRepository', () => {
       const card = new Card(validCardProps);
       await repository.save(card);
 
-      card.moveToCategory(5);
+      card.moveToCategory(Category.FIFTH);
       await repository.save(card);
 
       const cards = await repository.findAll();
       expect(cards).toHaveLength(1);
-      expect(cards[0]?.getCategory()).toBe(5);
+      expect(cards[0]?.getCategory()).toBe(Category.FIFTH);
     });
   });
 
