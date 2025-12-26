@@ -101,4 +101,70 @@ describe('User', () => {
       expect(user.getEmail()).toBe('user-name@example.com');
     });
   });
+
+  describe('updateName', () => {
+    it('should update name successfully', () => {
+      const user = new User(validProps);
+      const originalUpdatedAt = user.getUpdatedAt();
+
+      user.updateName('Jane Smith');
+
+      expect(user.getName()).toBe('Jane Smith');
+      expect(user.getUpdatedAt().getTime()).toBeGreaterThan(originalUpdatedAt.getTime());
+    });
+
+    it('should trim name when updating', () => {
+      const user = new User(validProps);
+      user.updateName('  Jane Smith  ');
+      expect(user.getName()).toBe('Jane Smith');
+    });
+
+    it('should throw error if name is empty', () => {
+      const user = new User(validProps);
+      expect(() => user.updateName('')).toThrow('Name cannot be empty');
+    });
+
+    it('should throw error if name exceeds 100 characters', () => {
+      const user = new User(validProps);
+      const longName = 'a'.repeat(101);
+      expect(() => user.updateName(longName)).toThrow('Name cannot exceed 100 characters');
+    });
+  });
+
+  describe('updateEmail', () => {
+    it('should update email successfully', async () => {
+      const user = new User(validProps);
+      const originalUpdatedAt = user.getUpdatedAt();
+
+      await new Promise(resolve => setTimeout(resolve, 1));
+
+      user.updateEmail('newemail@example.com');
+
+      expect(user.getEmail()).toBe('newemail@example.com');
+      expect(user.getUpdatedAt().getTime()).toBeGreaterThan(originalUpdatedAt.getTime());
+    });
+
+    it('should normalize email to lowercase', () => {
+      const user = new User(validProps);
+      user.updateEmail('NewEmail@Example.COM');
+      expect(user.getEmail()).toBe('newemail@example.com');
+    });
+
+    it('should trim email when updating', () => {
+      const user = new User(validProps);
+      user.updateEmail('  test@example.com  ');
+      expect(user.getEmail()).toBe('test@example.com');
+    });
+
+    it('should throw error if email format is invalid', () => {
+      const user = new User(validProps);
+      expect(() => user.updateEmail('invalid-email')).toThrow('Invalid email format');
+    });
+
+    it('should throw error if email exceeds 255 characters', () => {
+      const user = new User(validProps);
+      const longEmail = 'a'.repeat(247) + '@test.com'; 
+      expect(() => user.updateEmail(longEmail)).toThrow('Email cannot exceed 255 characters');
+    });
+  });
 });

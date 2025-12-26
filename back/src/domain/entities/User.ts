@@ -34,6 +34,28 @@ export default class User {
     return this.props.updatedAt;
   }
 
+  updateName(name: string): void {
+    const trimmedName = name.trim();
+    
+    if (!trimmedName || trimmedName.length === 0) {
+      throw new Error('Name cannot be empty');
+    }
+
+    if (trimmedName.length > 100) {
+      throw new Error('Name cannot exceed 100 characters');
+    }
+
+    this.props.name = trimmedName;
+    this.props.updatedAt = new Date();
+  }
+
+  updateEmail(email: string): void {
+    const trimmedEmail = email.trim();
+    this.validateEmail(trimmedEmail);
+    this.props.email = trimmedEmail.toLowerCase();
+    this.props.updatedAt = new Date();
+  }
+
   private validate(props: UserProps): void {
     if (!props.id || props.id.trim().length === 0) {
       throw new Error('User ID cannot be empty');
