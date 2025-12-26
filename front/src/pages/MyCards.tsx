@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cardService } from '../services/cardService';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import type { Card } from '../domain/types';
 import './MyCards.css';
@@ -86,14 +87,23 @@ function MyCards() {
                   <span className={`category-badge category-${card.category}`}>
                     {getCategoryLabel(card.category)}
                   </span>
-                  <button
-                    className="btn-delete"
-                    onClick={() => handleDelete(card.id)}
-                    disabled={deletingId === card.id}
-                    title="Supprimer"
-                  >
-                    <DeleteIcon />
-                  </button>
+                  <div className="card-actions">
+                    <button
+                      className="btn-edit"
+                      onClick={() => navigate(`/cards/${card.id}/edit`)}
+                      title="Modifier"
+                    >
+                      <EditIcon />
+                    </button>
+                    <button
+                      className="btn-delete"
+                      onClick={() => handleDelete(card.id)}
+                      disabled={deletingId === card.id}
+                      title="Supprimer"
+                    >
+                      <DeleteIcon />
+                    </button>
+                  </div>
                 </div>
 
                 <div className="card-content">

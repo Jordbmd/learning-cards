@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import CreateCard from './pages/CreateCard'
 import MyCards from './pages/MyCards'
+import EditCard from './pages/EditCard'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/cards/create" element={<CreateCard />} />
+        <Route path="/cards/:id/edit" element={<EditCard />} />
         <Route path="/cards" element={<MyCards />} />
       </Routes>
     </BrowserRouter>
