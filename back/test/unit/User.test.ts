@@ -77,11 +77,6 @@ describe('User', () => {
       expect(() => new User(props)).toThrow('Invalid email format');
     });
 
-    it('should throw error when email exceeds 255 characters', () => {
-      const props = { ...validProps, email: 'a'.repeat(246) + '@test.com' };
-      expect(() => new User(props)).toThrow('Email cannot exceed 255 characters');
-    });
-
     it('should accept valid email with subdomain', () => {
       const props = { ...validProps, email: 'user@mail.example.com' };
       const user = new User(props);

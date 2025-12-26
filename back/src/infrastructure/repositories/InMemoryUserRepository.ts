@@ -7,4 +7,8 @@ export class InMemoryUserRepository implements IUserRepository {
   async save(user: User): Promise<void> {
     this.users.set(user.getId(), user);
   }
+
+  async findById(id: string): Promise<User | null> {
+    return this.users.get(id) || null;
+  }
 }
