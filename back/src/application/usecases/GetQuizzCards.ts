@@ -16,12 +16,12 @@ export class GetQuizzCards {
     const category = card.getCategory();
     const lastReviewedAt = card.getLastReviewedAt();
 
-    if (!lastReviewedAt) {
-      return true;
+    if (card.isDone()) {
+      return false;
     }
 
-    if (card.isInFinalCategory()) {
-      return false;
+    if (!lastReviewedAt) {
+      return true;
     }
 
     const daysInterval = this.getDaysIntervalForCategory(category);
