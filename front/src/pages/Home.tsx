@@ -11,7 +11,10 @@ function Home() {
         <p className="home-subtitle">Apprenez efficacement avec la répétition espacée</p>
         
         <div className="home-buttons">
-          <button className="btn btn-primary">
+          <button 
+            className="btn btn-primary"
+            onClick={() => navigate('/login')}
+          >
             Se connecter
           </button>
           <button 
