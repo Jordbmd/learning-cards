@@ -90,8 +90,8 @@ export class CardController {
         filters.category = parseInt(req.query.category as string);
       }
 
-      if (req.query.tag) {
-        filters.tag = req.query.tag as string;
+      if (req.query.tags) {
+        filters.tags = (req.query.tags as string).split(',').map(t => t.trim());
       }
 
       if (req.query.fromDate) {

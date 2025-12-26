@@ -52,9 +52,9 @@ export class PostgresCardRepository implements ICardRepository {
       paramCount++;
     }
 
-    if (filters?.tag) {
-      conditions.push(`tag = $${paramCount}`);
-      values.push(filters.tag);
+    if (filters?.tags && filters.tags.length > 0) {
+      conditions.push(`tag = ANY($${paramCount})`);
+      values.push(filters.tags);
       paramCount++;
     }
 

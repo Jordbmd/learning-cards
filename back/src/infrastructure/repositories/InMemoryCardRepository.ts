@@ -20,8 +20,11 @@ export class InMemoryCardRepository implements ICardRepository {
       cards = cards.filter(card => card.getCategory() === filters.category);
     }
 
-    if (filters?.tag) {
-      cards = cards.filter(card => card.getTag() === filters.tag);
+    if (filters?.tags && filters.tags.length > 0) {
+      cards = cards.filter(card => {
+        const cardTag = card.getTag();
+        return cardTag && filters.tags!.includes(cardTag);
+      });
     }
 
     if (filters?.fromDate) {

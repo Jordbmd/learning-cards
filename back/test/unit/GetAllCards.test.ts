@@ -126,13 +126,13 @@ describe('GetAllCards', () => {
     });
 
     it('should filter cards by single tag', async () => {
-      const cards = await getAllCards.execute({ tag: 'javascript' });
+      const cards = await getAllCards.execute({ tags: ['javascript'] });
       expect(cards).toHaveLength(1);
       expect(cards[0]?.getQuestion()).toBe('JavaScript Question');
     });
 
     it('should filter cards by multiple tags', async () => {
-      const cards = await getAllCards.execute({ tag: 'frontend' });
+      const cards = await getAllCards.execute({ tags: ['frontend'] });
       expect(cards).toHaveLength(1);
       
       const questions = cards.map(c => c.getQuestion());
@@ -140,9 +140,18 @@ describe('GetAllCards', () => {
     });
 
     it('should filter cards by backend tag', async () => {
-      const cards = await getAllCards.execute({ tag: 'backend' });
+      const cards = await getAllCards.execute({ tags: ['backend'] });
       expect(cards).toHaveLength(1);
       expect(cards[0]?.getQuestion()).toBe('Node.js Question');
+    });
+
+    it('should filter cards by multiple tags (OR logic)', async () => {
+      const cards = await getAllCards.execute({ tags: ['javascript', 'backend'] });
+      expect(cards).toHaveLength(2);
+      
+      const questions = cards.map(c => c.getQuestion());
+      expect(questions).toContain('JavaScript Question');
+      expect(questions).toContain('Node.js Question');
     });
 
     it('should filter cards by date range', async () => {
@@ -194,7 +203,7 @@ describe('GetAllCards', () => {
 
       const cards = await getAllCards.execute({
         category: Category.THIRD,
-        tag: 'javascript'
+        tags: ['javascript']
       });
 
       expect(cards).toHaveLength(1);
@@ -208,7 +217,7 @@ describe('GetAllCards', () => {
     });
 
     it('should return empty array when no cards match filters', async () => {
-      const cards = await getAllCards.execute({ tag: 'nonexistent' });
+      const cards = await getAllCards.execute({ tags: ['nonexistent'] });
       expect(cards).toHaveLength(0);
     });
   });
