@@ -40,9 +40,39 @@ export class PostgresCardRepository implements ICardRepository {
     return this.mapRowToCard(result.rows[0]);
   }
 
-  async findAll(): Promise<Card[]> {
-    const query = 'SELECT * FROM cards ORDER BY created_at DESC';
-    const result = await pool.query(query);
+  async findAll(filters?: { category?: number; tags?: string[]; fromDate?: Date; toDate?: Date }): Promise<Card[]> {
+    const conditions: string[] = [];
+    const values: any[] = [];
+    let paramCount = 1;
+
+    if (filters?.category) {
+      conditions.push(`category = $${paramCount}`);
+      values.push(filters.category);
+      paramCount++;
+    }
+
+    if (filters?.tags && filters.tags.length > 0) {
+      conditions.push(`tags && $${paramCount}`);
+      values.push(filters.tags);
+      paramCount++;
+    }
+
+    if (filters?.fromDate) {
+      conditions.push(`created_at >= $${paramCount}`);
+      values.push(filters.fromDate);
+      paramCount++;
+    }
+
+    if (filters?.toDate) {
+      conditions.push(`created_at <= $${paramCount}`);
+      values.push(filters.toDate);
+      paramCount++;
+    }
+
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+    const query = `SELECT * FROM cards ${whereClause} ORDER BY created_at DESC`;
+    
+    const result = await pool.query(query, values);
 
     return result.rows.map(row => this.mapRowToCard(row));
   }

@@ -50,6 +50,12 @@ export class CardController {
   async getById(req: Request, res: Response): Promise<void> {
     try {
       const { id } = req.params;
+      
+      if (!id) {
+        res.status(400).json({ error: 'Card ID is required' });
+        return;
+      }
+
       const card = await this.getCard.execute(id);
 
       res.status(200).json({
@@ -72,7 +78,25 @@ export class CardController {
 
   async getAll(req: Request, res: Response): Promise<void> {
     try {
-      const cards = await this.getAllCards.execute();
+      const filters: any = {};
+
+      if (req.query.category) {
+        filters.category = parseInt(req.query.category as string);
+      }
+
+      if (req.query.tags) {
+        filters.tags = (req.query.tags as string).split(',');
+      }
+
+      if (req.query.fromDate) {
+        filters.fromDate = new Date(req.query.fromDate as string);
+      }
+
+      if (req.query.toDate) {
+        filters.toDate = new Date(req.query.toDate as string);
+      }
+
+      const cards = await this.getAllCards.execute(filters);
 
       res.status(200).json(
         cards.map(card => ({
@@ -94,6 +118,11 @@ export class CardController {
     try {
       const { id } = req.params;
       const { newCategory } = req.body;
+
+      if (!id) {
+        res.status(400).json({ error: 'Card ID is required' });
+        return;
+      }
 
       if (!newCategory) {
         res.status(400).json({ error: 'newCategory is required' });
@@ -126,6 +155,12 @@ export class CardController {
   async delete(req: Request, res: Response): Promise<void> {
     try {
       const { id } = req.params;
+      
+      if (!id) {
+        res.status(400).json({ error: 'Card ID is required' });
+        return;
+      }
+
       await this.deleteCard.execute(id);
 
       res.status(204).send();

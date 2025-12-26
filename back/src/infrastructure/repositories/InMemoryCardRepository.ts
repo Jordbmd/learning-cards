@@ -12,8 +12,28 @@ export class InMemoryCardRepository implements ICardRepository {
     return this.cards.get(id) || null;
   }
 
-  async findAll(): Promise<Card[]> {
-    return Array.from(this.cards.values());
+  async findAll(filters?: { category?: number; tags?: string[]; fromDate?: Date; toDate?: Date }): Promise<Card[]> {
+    let cards = Array.from(this.cards.values());
+
+    if (filters?.category) {
+      cards = cards.filter(card => card.getCategory() === filters.category);
+    }
+
+    if (filters?.tags && filters.tags.length > 0) {
+      cards = cards.filter(card => 
+        filters.tags!.some(tag => card.hasTag(tag))
+      );
+    }
+
+    if (filters?.fromDate) {
+      cards = cards.filter(card => card.getCreatedAt() >= filters.fromDate!);
+    }
+
+    if (filters?.toDate) {
+      cards = cards.filter(card => card.getCreatedAt() <= filters.toDate!);
+    }
+
+    return cards;
   }
 
   async delete(id: string): Promise<void> {
