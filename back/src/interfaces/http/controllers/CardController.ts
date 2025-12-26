@@ -6,6 +6,7 @@ import { ReviewCard } from '../../../application/usecases/ReviewCard.js';
 import { DeleteCard } from '../../../application/usecases/DeleteCard.js';
 import { GetQuizzCards } from '../../../application/usecases/GetQuizzCards.js';
 import { AnswerCard } from '../../../application/usecases/AnswerCard.js';
+import { UpdateCard } from '../../../application/usecases/UpdateCard.js';
 
 export class CardController {
   constructor(
@@ -15,7 +16,8 @@ export class CardController {
     private readonly reviewCard: ReviewCard,
     private readonly deleteCard: DeleteCard,
     private readonly getQuizzCards: GetQuizzCards,
-    private readonly answerCard: AnswerCard
+    private readonly answerCard: AnswerCard,
+    private readonly updateCard: UpdateCard
   ) {}
 
   async create(req: Request, res: Response): Promise<void> {
@@ -224,6 +226,45 @@ export class CardController {
     } catch (error) {
       if (error instanceof Error) {
         res.status(404).json({ error: error.message });
+      } else {
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    }
+  }
+
+  async update(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+      const { question, answer, tags } = req.body;
+
+      if (!id) {
+        res.status(400).json({ error: 'Card ID is required' });
+        return;
+      }
+
+      const card = await this.updateCard.execute({
+        cardId: id,
+        question,
+        answer,
+        tags
+      });
+
+      res.status(200).json({
+        id: card.getId(),
+        question: card.getQuestion(),
+        answer: card.getAnswer(),
+        category: card.getCategory(),
+        tags: card.getTags(),
+        createdAt: card.getCreatedAt(),
+        lastReviewedAt: card.getLastReviewedAt()
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === 'Card not found') {
+          res.status(404).json({ error: error.message });
+        } else {
+          res.status(400).json({ error: error.message });
+        }
       } else {
         res.status(500).json({ error: 'Internal server error' });
       }

@@ -9,6 +9,7 @@ import { ReviewCard } from './application/usecases/ReviewCard.js';
 import { DeleteCard } from './application/usecases/DeleteCard.js';
 import { GetQuizzCards } from './application/usecases/GetQuizzCards.js';
 import { AnswerCard } from './application/usecases/AnswerCard.js';
+import { UpdateCard } from './application/usecases/UpdateCard.js';
 import { CreateUser } from './application/usecases/CreateUser.js';
 import { GetUser } from './application/usecases/GetUser.js';
 import { GetAllUsers } from './application/usecases/GetAllUsers.js';
@@ -34,7 +35,8 @@ const reviewCard = new ReviewCard(cardRepository);
 const deleteCard = new DeleteCard(cardRepository);
 const getQuizzCards = new GetQuizzCards(cardRepository);
 const answerCard = new AnswerCard(cardRepository);
-const cardController = new CardController(createCard, getCard, getAllCards, reviewCard, deleteCard, getQuizzCards, answerCard);
+const updateCard = new UpdateCard(cardRepository);
+const cardController = new CardController(createCard, getCard, getAllCards, reviewCard, deleteCard, getQuizzCards, answerCard, updateCard);
 const cardRoutes = createCardRoutes(cardController);
 
 const userRepository = new PostgresUserRepository();
