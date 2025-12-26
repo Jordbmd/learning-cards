@@ -5,3 +5,5 @@ export type {
     GetCardsFilters,
     GetQuizzParams,
 } from './Card';
+
+export type { User } from './User';
