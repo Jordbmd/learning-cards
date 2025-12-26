@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { userService } from '../services/userService';
 import './Register.css';
 
 function Register() {
@@ -10,6 +11,7 @@ function Register() {
     confirmEmail: ''
   });
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +27,21 @@ function Register() {
       return;
     }
 
-    console.log('Register:', formData);
+    setIsLoading(true);
+
+    try {
+      const user = await userService.createUser({
+        name: formData.name,
+        email: formData.email,
+      });
+
+      console.log('Utilisateur créé:', user);
+      navigate('/login');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erreur lors de l\'inscription');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -67,8 +83,8 @@ function Register() {
 
           {error && <div className="error-message">{error}</div>}
 
-          <button type="submit" className="btn-submit">
-            S'inscrire
+          <button type="submit" className="btn-submit" disabled={isLoading}>
+            {isLoading ? 'Inscription...' : 'S\'inscrire'}
           </button>
 
           <button 
