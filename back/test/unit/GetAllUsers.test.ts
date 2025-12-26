@@ -24,7 +24,8 @@ describe('GetAllUsers', () => {
         name: 'User One',
         email: 'user1@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       const user2 = new User({
@@ -32,7 +33,8 @@ describe('GetAllUsers', () => {
         name: 'User Two',
         email: 'user2@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user1);
@@ -48,7 +50,8 @@ describe('GetAllUsers', () => {
         name: 'John Doe',
         email: 'john@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user);
@@ -66,7 +69,8 @@ describe('GetAllUsers', () => {
         name: 'Alice',
         email: 'alice@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       const user2 = new User({
@@ -74,7 +78,8 @@ describe('GetAllUsers', () => {
         name: 'Bob',
         email: 'bob@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       const user3 = new User({
@@ -82,7 +87,8 @@ describe('GetAllUsers', () => {
         name: 'Charlie',
         email: 'charlie@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user1);

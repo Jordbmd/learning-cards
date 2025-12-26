@@ -20,7 +20,8 @@ describe('InMemoryUserRepository', () => {
         name: 'John Doe',
         email: 'john@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       };
 
       const User = (await import('../../src/domain/entities/User.js')).default;
@@ -40,7 +41,8 @@ describe('InMemoryUserRepository', () => {
         name: 'John Doe',
         email: 'john@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       };
 
       const User = (await import('../../src/domain/entities/User.js')).default;
@@ -66,7 +68,8 @@ describe('InMemoryUserRepository', () => {
         name: 'User One',
         email: 'user1@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       const user2 = new User({
@@ -74,7 +77,8 @@ describe('InMemoryUserRepository', () => {
         name: 'User Two',
         email: 'user2@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user1);
@@ -92,7 +96,8 @@ describe('InMemoryUserRepository', () => {
         name: 'John Doe',
         email: 'john@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user);
@@ -119,7 +124,8 @@ describe('InMemoryUserRepository', () => {
         name: 'John Doe',
         email: 'john@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user);
@@ -138,7 +144,8 @@ describe('InMemoryUserRepository', () => {
         name: 'John Doe',
         email: 'john@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user);
@@ -156,7 +163,8 @@ describe('InMemoryUserRepository', () => {
         name: 'John Doe',
         email: 'john@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user);
@@ -173,7 +181,8 @@ describe('InMemoryUserRepository', () => {
         name: 'John Doe',
         email: 'john@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       const user2 = new User({
@@ -181,7 +190,8 @@ describe('InMemoryUserRepository', () => {
         name: 'Jane Doe',
         email: 'jane@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user1);
@@ -203,7 +213,8 @@ describe('InMemoryUserRepository', () => {
         name: 'John Doe',
         email: 'john@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user);
@@ -227,7 +238,8 @@ describe('InMemoryUserRepository', () => {
         name: 'User One',
         email: 'user1@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       const user2 = new User({
@@ -235,7 +247,8 @@ describe('InMemoryUserRepository', () => {
         name: 'User Two',
         email: 'user2@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user1);

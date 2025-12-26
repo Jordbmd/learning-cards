@@ -19,7 +19,8 @@ describe('GetUser', () => {
         name: 'John Doe',
         email: 'john@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       };
 
       const user = new User(userData);
@@ -42,7 +43,8 @@ describe('GetUser', () => {
         name: 'User One',
         email: 'user1@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       const user2 = new User({
@@ -50,7 +52,8 @@ describe('GetUser', () => {
         name: 'User Two',
         email: 'user2@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user1);

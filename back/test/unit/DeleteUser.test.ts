@@ -19,7 +19,8 @@ describe('DeleteUser', () => {
         name: 'John Doe',
         email: 'john@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user);
@@ -39,7 +40,8 @@ describe('DeleteUser', () => {
         name: 'User One',
         email: 'user1@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       const user2 = new User({
@@ -47,7 +49,8 @@ describe('DeleteUser', () => {
         name: 'User Two',
         email: 'user2@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user1);
@@ -65,7 +68,8 @@ describe('DeleteUser', () => {
         name: 'User One',
         email: 'user1@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       const user2 = new User({
@@ -73,7 +77,8 @@ describe('DeleteUser', () => {
         name: 'User Two',
         email: 'user2@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user1);
@@ -92,7 +97,8 @@ describe('DeleteUser', () => {
         name: 'John Doe',
         email: 'john@example.com',
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        lastQuizDate: null
       });
 
       await repository.save(user);

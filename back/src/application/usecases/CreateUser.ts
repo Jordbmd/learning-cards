@@ -23,6 +23,7 @@ export class CreateUser {
       email: input.email,
       createdAt: now,
       updatedAt: now,
+      lastQuizDate: null,
     });
 
     await this.repository.save(user);

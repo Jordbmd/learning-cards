@@ -19,6 +19,7 @@ describe('UpdateUser', () => {
       email: 'john@example.com',
       createdAt: new Date('2024-01-01'),
       updatedAt: new Date('2024-01-01'),
+      lastQuizDate: null,
     });
     await repository.save(user);
     const originalUpdatedAt = user.getUpdatedAt().getTime();
@@ -42,6 +43,7 @@ describe('UpdateUser', () => {
       email: 'john@example.com',
       createdAt: new Date('2024-01-01'),
       updatedAt: new Date('2024-01-01'),
+      lastQuizDate: null,
     });
     await repository.save(user);
     const originalUpdatedAt = user.getUpdatedAt().getTime();
@@ -65,6 +67,7 @@ describe('UpdateUser', () => {
       email: 'john@example.com',
       createdAt: new Date('2024-01-01'),
       updatedAt: new Date('2024-01-01'),
+      lastQuizDate: null,
     });
     await repository.save(user);
     const originalUpdatedAt = user.getUpdatedAt().getTime();
@@ -98,6 +101,7 @@ describe('UpdateUser', () => {
       email: 'john@example.com',
       createdAt: new Date(),
       updatedAt: new Date(),
+      lastQuizDate: null,
     });
     const user2 = new User({
       id: 'user-2',
@@ -105,6 +109,7 @@ describe('UpdateUser', () => {
       email: 'jane@example.com',
       createdAt: new Date(),
       updatedAt: new Date(),
+      lastQuizDate: null,
     });
     await repository.save(user1);
     await repository.save(user2);
@@ -124,6 +129,7 @@ describe('UpdateUser', () => {
       email: 'john@example.com',
       createdAt: new Date(),
       updatedAt: new Date(),
+      lastQuizDate: null,
     });
     const user2 = new User({
       id: 'user-2',
@@ -131,6 +137,7 @@ describe('UpdateUser', () => {
       email: 'jane@example.com',
       createdAt: new Date(),
       updatedAt: new Date(),
+      lastQuizDate: null,
     });
     await repository.save(user1);
     await repository.save(user2);
@@ -150,6 +157,7 @@ describe('UpdateUser', () => {
       email: 'john@example.com',
       createdAt: new Date('2024-01-01'),
       updatedAt: new Date('2024-01-01'),
+      lastQuizDate: null,
     });
     await repository.save(user);
 
@@ -168,6 +176,7 @@ describe('UpdateUser', () => {
       email: 'john@example.com',
       createdAt: new Date('2024-01-01'),
       updatedAt: new Date('2024-01-01'),
+      lastQuizDate: null,
     });
     await repository.save(user);
 
@@ -186,6 +195,7 @@ describe('UpdateUser', () => {
       email: 'john@example.com',
       createdAt: new Date('2024-01-01'),
       updatedAt: new Date('2024-01-01'),
+      lastQuizDate: null,
     });
     await repository.save(user);
 
@@ -204,6 +214,7 @@ describe('UpdateUser', () => {
       email: 'john@example.com',
       createdAt: new Date('2024-01-01'),
       updatedAt: new Date('2024-01-01'),
+      lastQuizDate: null,
     });
     await repository.save(user);
 

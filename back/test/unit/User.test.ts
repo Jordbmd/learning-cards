@@ -7,7 +7,8 @@ describe('User', () => {
     name: 'John Doe',
     email: 'john@example.com',
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
+    lastQuizDate: null
   };
 
   describe('constructor', () => {
