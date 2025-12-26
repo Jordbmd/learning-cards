@@ -6,13 +6,14 @@ import { GetCard } from './application/usecases/GetCard.js';
 import { GetAllCards } from './application/usecases/GetAllCards.js';
 import { ReviewCard } from './application/usecases/ReviewCard.js';
 import { DeleteCard } from './application/usecases/DeleteCard.js';
+import { GetQuizzCards } from './application/usecases/GetQuizzCards.js';
 import { CardController } from './interfaces/http/controllers/CardController.js';
 import { createCardRoutes } from './interfaces/http/routes/cardRoutes.js';
 
 export * from './domain/index.js';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 
@@ -22,7 +23,8 @@ const getCard = new GetCard(repository);
 const getAllCards = new GetAllCards(repository);
 const reviewCard = new ReviewCard(repository);
 const deleteCard = new DeleteCard(repository);
-const cardController = new CardController(createCard, getCard, getAllCards, reviewCard, deleteCard);
+const getQuizzCards = new GetQuizzCards(repository);
+const cardController = new CardController(createCard, getCard, getAllCards, reviewCard, deleteCard, getQuizzCards);
 const cardRoutes = createCardRoutes(cardController);
 
 app.use('/api', cardRoutes);

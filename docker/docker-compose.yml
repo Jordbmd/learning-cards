@@ -23,7 +23,7 @@ services:
       - ../back:/app
       - /app/node_modules
     ports:
-      - "3000:3000"
+      - "8080:8080"
     environment:
       NODE_ENV: development
       DATABASE_URL: postgresql://user:password@postgres:5432/learning_cards

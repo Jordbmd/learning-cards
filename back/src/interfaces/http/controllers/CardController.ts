@@ -4,6 +4,7 @@ import { GetCard } from '../../../application/usecases/GetCard.js';
 import { GetAllCards } from '../../../application/usecases/GetAllCards.js';
 import { ReviewCard } from '../../../application/usecases/ReviewCard.js';
 import { DeleteCard } from '../../../application/usecases/DeleteCard.js';
+import { GetQuizzCards } from '../../../application/usecases/GetQuizzCards.js';
 
 export class CardController {
   constructor(
@@ -11,7 +12,8 @@ export class CardController {
     private readonly getCard: GetCard,
     private readonly getAllCards: GetAllCards,
     private readonly reviewCard: ReviewCard,
-    private readonly deleteCard: DeleteCard
+    private readonly deleteCard: DeleteCard,
+    private readonly getQuizzCards: GetQuizzCards
   ) {}
 
   async create(req: Request, res: Response): Promise<void> {
@@ -97,6 +99,29 @@ export class CardController {
       }
 
       const cards = await this.getAllCards.execute(filters);
+
+      res.status(200).json(
+        cards.map(card => ({
+          id: card.getId(),
+          question: card.getQuestion(),
+          answer: card.getAnswer(),
+          category: card.getCategory(),
+          tags: card.getTags(),
+          createdAt: card.getCreatedAt(),
+          lastReviewedAt: card.getLastReviewedAt()
+        }))
+      );
+    } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+
+  async getQuizz(req: Request, res: Response): Promise<void> {
+    try {
+      const dateParam = req.query.date as string | undefined;
+      const date = dateParam ? new Date(dateParam) : undefined;
+
+      const cards = await this.getQuizzCards.execute(date);
 
       res.status(200).json(
         cards.map(card => ({
