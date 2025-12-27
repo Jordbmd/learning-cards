@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import TrackChangesIcon from '@mui/icons-material/TrackChanges';
+import { cardService } from '../services/cardService';
+import { Category } from '../domain/types';
+import type { Card } from '../domain/types';
 import './Dashboard.css';
 
 interface User {
@@ -16,6 +19,8 @@ interface User {
 function Dashboard() {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
+  const [cards, setCards] = useState<Card[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('currentUser');
@@ -24,7 +29,32 @@ function Dashboard() {
       return;
     }
     setUser(JSON.parse(storedUser));
+    loadCards();
   }, [navigate]);
+
+  const loadCards = async () => {
+    try {
+      setIsLoading(true);
+      const data = await cardService.getAllCards();
+      setCards(data);
+    } catch (err) {
+      console.error('Erreur lors du chargement des cartes:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getStats = () => {
+    const totalCards = cards.length;
+    const masteredCards = cards.filter(card => card.category === Category.DONE).length;
+    const cardsToReview = totalCards - masteredCards;
+    
+    return {
+      totalCards,
+      cardsToReview,
+      masteredCards
+    };
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('currentUser');
@@ -34,6 +64,8 @@ function Dashboard() {
   if (!user) {
     return null;
   }
+
+  const stats = getStats();
 
   return (
     <div className="dashboard-container">
@@ -55,15 +87,15 @@ function Dashboard() {
             <h3>Mes statistiques</h3>
             <div className="stats-grid">
               <div className="stat-card">
-                <div className="stat-number">0</div>
+                <div className="stat-number">{isLoading ? '...' : stats.totalCards}</div>
                 <div className="stat-label">Cartes créées</div>
               </div>
               <div className="stat-card">
-                <div className="stat-number">0</div>
+                <div className="stat-number">{isLoading ? '...' : stats.cardsToReview}</div>
                 <div className="stat-label">Cartes à réviser</div>
               </div>
               <div className="stat-card">
-                <div className="stat-number">0</div>
+                <div className="stat-number">{isLoading ? '...' : stats.masteredCards}</div>
                 <div className="stat-label">Cartes maîtrisées</div>
               </div>
             </div>
