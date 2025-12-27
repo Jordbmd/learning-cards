@@ -123,6 +123,34 @@ describe('CardService', () => {
         expect.stringContaining('date=2024-01-01')
       );
     });
+
+    it('should fetch quiz cards for today', async () => {
+      const mockCards = [
+        {
+          id: 'quiz-1',
+          question: 'Q1',
+          answer: 'A1',
+          category: Category.FIRST,
+          tag: 'tag1'
+        },
+        {
+          id: 'quiz-2',
+          question: 'Q2',
+          answer: 'A2',
+          category: Category.SECOND,
+          tag: 'tag2'
+        }
+      ];
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockCards,
+      } as Response);
+
+      const result = await cardService.getQuizzCards();
+      expect(result).toHaveLength(2);
+      expect(result[0].question).toBe('Q1');
+      expect(result[1].category).toBe(Category.SECOND);
+    });
   });
 
   describe('answerCard', () => {
@@ -151,6 +179,18 @@ describe('CardService', () => {
       await expect(
         cardService.answerCard('invalid-id', true)
       ).rejects.toThrow('Carte non trouvée');
+    });
+
+    it('should call PATCH /cards/:id/answer with isValid', async () => {
+      mockFetch.mockResolvedValueOnce({ ok: true } as Response);
+      await cardService.answerCard('quiz-1', true);
+      expect(fetch).toHaveBeenCalledWith(
+        expect.stringContaining('/cards/quiz-1/answer'),
+        expect.objectContaining({
+          method: 'PATCH',
+          body: JSON.stringify({ isValid: true })
+        })
+      );
     });
   });
 });
