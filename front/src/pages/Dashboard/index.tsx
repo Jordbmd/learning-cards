@@ -3,7 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import TrackChangesIcon from '@mui/icons-material/TrackChanges';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import { cardService } from '../../services/cardService';
+import { notificationService } from '../../services/notificationService';
 import { Category } from '../../domain/types';
 import type { Card } from '../../domain/types';
 import Header from '../../components/Header';
@@ -24,6 +26,9 @@ function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
   const [cards, setCards] = useState<Card[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [notificationTime, setNotificationTime] = useState<string>(notificationService.getNotificationTime() || '09:00');
+  const [notificationEnabled, setNotificationEnabled] = useState<boolean>(!!notificationService.getNotificationTime());
+  const [notificationPermission, setNotificationPermission] = useState<NotificationPermission>(Notification.permission);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('currentUser');
@@ -39,6 +44,14 @@ function Dashboard() {
       loadCards();
     }
   }, [location, user]);
+
+  useEffect(() => {
+    setNotificationPermission(Notification.permission);
+    
+    if (Notification.permission === 'granted' && notificationService.getNotificationTime()) {
+      notificationService.scheduleNotification();
+    }
+  }, []);
 
   const loadCards = async () => {
     try {
@@ -62,6 +75,36 @@ function Dashboard() {
       cardsToReview,
       masteredCards
     };
+  };
+
+  const handleRequestPermission = async () => {
+    const granted = await notificationService.requestPermission();
+    setNotificationPermission(Notification.permission);
+    if (granted && notificationEnabled) {
+      notificationService.setNotificationTime(notificationTime);
+    }
+  };
+
+  const handleToggleNotification = () => {
+    if (!notificationEnabled) {
+      if (notificationPermission === 'granted') {
+        notificationService.setNotificationTime(notificationTime);
+        setNotificationEnabled(true);
+      } else if (notificationPermission === 'default') {
+        handleRequestPermission();
+      }
+    } else {
+      notificationService.clearNotification();
+      setNotificationEnabled(false);
+    }
+  };
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTime = e.target.value;
+    setNotificationTime(newTime);
+    if (notificationEnabled && notificationPermission === 'granted') {
+      notificationService.setNotificationTime(newTime);
+    }
   };
 
   if (!user) {
@@ -118,6 +161,51 @@ function Dashboard() {
                     <TrackChangesIcon className="action-icon" />
                     <span className="action-text">Réviser</span>
                   </button>
+                </div>
+              </div>
+
+              <div className="notifications-section">
+                <h3>Notifications</h3>
+                <div className="notification-settings">
+                  {notificationPermission === 'denied' ? (
+                    <div className="notification-error">
+                      <p>Les notifications sont bloquées par votre navigateur.</p>
+                      <p>Veuillez les autoriser dans les paramètres de votre navigateur.</p>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="notification-time">
+                        <label htmlFor="notification-time">
+                          <NotificationsIcon className="notification-icon" />
+                          Heure de notification :
+                        </label>
+                        <input
+                          type="time"
+                          id="notification-time"
+                          value={notificationTime}
+                          onChange={handleTimeChange}
+                          disabled={!notificationEnabled}
+                        />
+                      </div>
+                      <div className="notification-controls">
+                        {notificationPermission !== 'granted' ? (
+                          <button 
+                            className="btn-notification-request"
+                            onClick={handleRequestPermission}
+                          >
+                            Autoriser les notifications
+                          </button>
+                        ) : (
+                          <button
+                            className={`btn-notification-toggle ${notificationEnabled ? 'enabled' : 'disabled'}`}
+                            onClick={handleToggleNotification}
+                          >
+                            {notificationEnabled ? 'Notifications activées' : 'Activer les notifications'}
+                          </button>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
