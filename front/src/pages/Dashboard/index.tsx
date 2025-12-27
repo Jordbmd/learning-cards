@@ -3,11 +3,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import TrackChangesIcon from '@mui/icons-material/TrackChanges';
-import { cardService } from '../services/cardService';
-import { Category } from '../domain/types';
-import type { Card } from '../domain/types';
-import Header from '../components/Header';
-import '../styles/common.css';
+import { cardService } from '../../services/cardService';
+import { Category } from '../../domain/types';
+import type { Card } from '../../domain/types';
+import Header from '../../components/Header';
+import '../../styles/common.css';
 import './Dashboard.css';
 
 interface User {

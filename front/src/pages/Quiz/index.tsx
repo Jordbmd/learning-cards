@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { cardService } from '../services/cardService';
-import type { Card } from '../domain/types';
-import { getCategoryLabel } from '../domain/types';
-import Header from '../components/Header';
-import '../styles/common.css';
+import { cardService } from '../../services/cardService';
+import type { Card } from '../../domain/types';
+import { getCategoryLabel } from '../../domain/types';
+import Header from '../../components/Header';
+import '../../styles/common.css';
 import './Quiz.css';
 
 function Quiz() {
