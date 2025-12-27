@@ -1,40 +1,14 @@
-.quiz-container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
-  padding-top: 6rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+.quiz-progress {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #667eea;
+  background: #ede9fe;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
 }
 
-.quiz-header {
-  width: 100%;
-  max-width: 600px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  color: white;
-}
-
-.quiz-header h1 {
-  font-size: 2rem;
-  margin: 0;
-}
-
-.progress {
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-.card-display {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  width: 100%;
-  max-width: 600px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+.quiz-card {
+  margin-top: 1rem;
 }
 
 .category-badge {
@@ -48,24 +22,20 @@
   margin-bottom: 1.5rem;
 }
 
-.question-section,
-.answer-section,
-.user-answer-section {
+.quiz-section {
   margin-bottom: 2rem;
 }
 
-.question-section h2,
-.answer-section h2,
-.user-answer-section h2 {
+.quiz-section h2 {
   color: #333;
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
 }
 
-.question-section p,
-.answer-section p {
+.quiz-section p {
   color: #555;
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 1.6;
 }
 
@@ -145,11 +115,6 @@
   color: #065f46;
 }
 
-.answer-section {
-  border-top: 2px solid #f0f0f0;
-  padding-top: 1.5rem;
-}
-
 .quiz-actions {
   display: flex;
   justify-content: center;
@@ -207,49 +172,53 @@
   background: #059669;
 }
 
-.loading,
+.loading-state,
+.error-state,
 .empty-state {
-  color: white;
   text-align: center;
-  font-size: 1.2rem;
+  padding: 3rem 2rem;
+  background: white;
+  border-radius: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
-.error-message {
-  color: #dc2626 !important;
+.loading-state {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.error-state {
+  color: #dc2626;
   font-size: 1rem;
-  text-align: center;
-  padding: 10px 20px;
-  margin-bottom: 1rem;
 }
 
 .empty-state h2 {
+  color: #333;
   margin-bottom: 1rem;
+  font-size: 1.5rem;
 }
 
 .empty-state p {
+  color: #666;
   margin-bottom: 2rem;
-  opacity: 0.9;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
-.btn-back {
+.btn-primary {
   padding: 0.8rem 2rem;
   font-size: 1rem;
-  background: white;
-  color: #667eea;
+  background: #667eea;
+  color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 500;
-  margin-top: 1rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+  transition: background 0.3s;
 }
 
-.btn-back svg {
-  font-size: 1.2rem;
-}
-
-.btn-back:hover {
-  background: #f0f0f0;
+.btn-primary:hover {
+  background: #5568d3;
 }
