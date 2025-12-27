@@ -50,6 +50,29 @@ describe('CardService', () => {
         cardService.createCard({ question: 'Q', answer: 'A' })
       ).rejects.toThrow('Erreur lors de la création de la carte');
     });
+
+    it('should create a card in category FIRST by default', async () => {
+      const mockCard = {
+        id: '2',
+        question: 'Catégorie test',
+        answer: 'Réponse test',
+        category: Category.FIRST,
+        tag: 'unit'
+      };
+
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockCard,
+      } as Response);
+
+      const result = await cardService.createCard({
+        question: 'Catégorie test',
+        answer: 'Réponse test',
+        tag: 'unit'
+      });
+
+      expect(result.category).toBe(Category.FIRST);
+    });
   });
 
   describe('getAllCards', () => {

@@ -27,19 +27,6 @@ export * from './domain/index.js';
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(200);
-    return;
-  }
-
-  next();
-});
-
 app.use(express.json());
 
 const cardRepository = new PostgresCardRepository();
@@ -65,8 +52,8 @@ const markQuizCompleted = new MarkQuizCompleted(userRepository);
 const userController = new UserController(createUser, getUser, getAllUsers, updateUser, deleteUser, checkQuizAvailability, markQuizCompleted);
 const userRoutes = createUserRoutes(userController);
 
-app.use('/', cardRoutes);
-app.use('/', userRoutes);
+app.use('/api', cardRoutes);
+app.use('/api', userRoutes);
 
 app.get('/health', (req: Request, res: Response) => {
   res.json({ status: 'ok' });
