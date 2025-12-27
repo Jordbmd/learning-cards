@@ -59,11 +59,14 @@
 }
 
 .error-message {
-  background: #fee;
-  color: #c33;
+  background-color: #fee2e2 !important;
+  color: #dc2626 !important;
   padding: 0.75rem;
   border-radius: 8px;
   font-size: 0.9rem;
+  border: 1px solid #fca5a5;
+  text-align: center;
+  font-weight: 500;
 }
 
 .btn-submit {

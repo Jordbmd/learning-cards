@@ -71,12 +71,15 @@
 }
 
 .error-message {
-  background: white;
-  color: #c33;
+  background-color: #fee2e2 !important;
+  color: #dc2626 !important;
   padding: 20px;
   border-radius: 15px;
   margin-bottom: 20px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid #fca5a5;
+  text-align: center;
+  font-weight: 600;
 }
 
 .loading {

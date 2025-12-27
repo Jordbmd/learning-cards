@@ -67,12 +67,15 @@
 }
 
 .error-message {
-  background: #fee;
-  color: #c33;
+  background-color: #fee2e2 !important;
+  color: #dc2626 !important;
   padding: 12px;
   border-radius: 8px;
   margin-bottom: 20px;
   font-size: 14px;
+  border: 1px solid #fca5a5;
+  text-align: center;
+  font-weight: 500;
 }
 
 .button-group {
