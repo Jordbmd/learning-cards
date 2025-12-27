@@ -93,9 +93,18 @@ function Register() {
 
           {error && <div className="error-message">{error}</div>}
 
-          <button type="submit" className="btn-submit" disabled={isLoading}>
-            {isLoading ? 'Inscription...' : 'S\'inscrire'}
-          </button>
+          <div className="button-group">
+            <button type="submit" className="btn-submit" disabled={isLoading}>
+              {isLoading ? 'Inscription...' : 'S\'inscrire'}
+            </button>
+            <button 
+              type="button" 
+              className="btn-login"
+              onClick={() => navigate('/login')}
+            >
+              Connexion
+            </button>
+          </div>
         </form>
       </div>
     </div>

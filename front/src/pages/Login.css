@@ -67,6 +67,11 @@
   gap: 1.5rem;
 }
 
+.login-form .error-message {
+  margin: -1.2rem 0 -1.2rem 0;
+  padding: 0;
+}
+
 .form-group {
   text-align: left;
 }
@@ -79,6 +84,8 @@
   border-radius: 10px;
   transition: all 0.3s ease;
   box-sizing: border-box;
+  background-color: #ffffff;
+  color: #333333;
 }
 
 .form-input:focus {
@@ -87,18 +94,14 @@
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-.error-message {
-  background-color: #fee2e2 !important;
-  color: #dc2626 !important;
-  padding: 0.75rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  border: 1px solid #fca5a5;
-  text-align: center;
-  font-weight: 500;
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0;
 }
 
 .btn-submit {
+  flex: 1;
   padding: 1rem;
   font-size: 1.1rem;
   font-weight: 600;
@@ -120,4 +123,22 @@
   background: #ccc;
   cursor: not-allowed;
   transform: none;
+}
+
+.btn-register {
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background: transparent;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-register:hover {
+  background: #f8f9ff;
+  transform: translateY(-2px);
 }

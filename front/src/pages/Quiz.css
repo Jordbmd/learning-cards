@@ -78,6 +78,8 @@
   resize: vertical;
   font-family: inherit;
   transition: border-color 0.3s;
+  background-color: #ffffff;
+  color: #333333;
 }
 
 .answer-input:focus {
@@ -212,17 +214,11 @@
 }
 
 .error-message {
-  background-color: #fee2e2 !important;
   color: #dc2626 !important;
-  padding: 1.5rem;
-  border-radius: 12px;
   font-size: 1rem;
-  border: 2px solid #fca5a5;
   text-align: center;
-  font-weight: 600;
-  max-width: 600px;
-  margin: 0 auto;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  padding: 10px 20px;
+  margin-bottom: 1rem;
 }
 
 .empty-state h2 {

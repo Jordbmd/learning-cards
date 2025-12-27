@@ -69,9 +69,18 @@ function Login() {
 
           {error && <div className="error-message">{error}</div>}
 
-          <button type="submit" className="btn-submit" disabled={isLoading}>
-            {isLoading ? 'Connexion...' : 'Se connecter'}
-          </button>
+          <div className="button-group">
+            <button type="submit" className="btn-submit" disabled={isLoading}>
+              {isLoading ? 'Connexion...' : 'Se connecter'}
+            </button>
+            <button 
+              type="button" 
+              className="btn-register"
+              onClick={() => navigate('/register')}
+            >
+              S'inscrire
+            </button>
+          </div>
         </form>
       </div>
     </div>
