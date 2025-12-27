@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cardService } from '../services/cardService';
-import { userService } from '../services/userService';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import type { Card } from '../domain/types';
 import { getCategoryLabel } from '../domain/types';
@@ -14,31 +13,16 @@ function Quiz() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  const [quizBlocked, setQuizBlocked] = useState(false);
   const [userAnswer, setUserAnswer] = useState('');
 
   useEffect(() => {
-    checkAvailabilityAndLoadCards();
+    loadQuizCards();
   }, []);
 
-  const checkAvailabilityAndLoadCards = async () => {
+  const loadQuizCards = async () => {
     try {
       setIsLoading(true);
       setError('');
-
-      const userId = localStorage.getItem('userId');
-      if (!userId) {
-        setError('Vous devez être connecté');
-        return;
-      }
-
-      const availability = await userService.checkQuizAvailability(userId);
-      
-      if (!availability.canDoQuiz) {
-        setQuizBlocked(true);
-        setIsLoading(false);
-        return;
-      }
 
       const data = await cardService.getQuizzCards();
       setCards(data);
@@ -61,10 +45,6 @@ function Quiz() {
         setShowAnswer(false);
         setUserAnswer('');
       } else {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-          await userService.markQuizCompleted(userId);
-        }
         navigate('/dashboard');
       }
     } catch (err) {
@@ -87,20 +67,6 @@ function Quiz() {
         <button className="btn-back" onClick={() => navigate('/dashboard')}>
           <ArrowBackIcon /> Retour
         </button>
-      </div>
-    );
-  }
-
-  if (quizBlocked) {
-    return (
-      <div className="quiz-container">
-        <div className="empty-state">
-          <h2>Quiz déjà effectué aujourd'hui</h2>
-          <p>Vous avez déjà complété votre quiz quotidien. Revenez demain !</p>
-          <button className="btn-back" onClick={() => navigate('/dashboard')}>
-            <ArrowBackIcon /> Retour
-          </button>
-        </div>
       </div>
     );
   }
