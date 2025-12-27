@@ -11,15 +11,33 @@ import './MyCards.css';
 function MyCards() {
   const navigate = useNavigate();
   const [cards, setCards] = useState<Card[]>([]);
+  const [filteredCards, setFilteredCards] = useState<Card[]>([]);
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const loadCards = async () => {
+  const loadAllCards = async () => {
     try {
       setIsLoading(true);
       setError('');
       const data = await cardService.getAllCards();
       setCards(data);
+      if (selectedTag === null) {
+        setFilteredCards(data);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erreur lors du chargement des cartes');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const loadCardsByTag = async (tag: string) => {
+    try {
+      setIsLoading(true);
+      setError('');
+      const data = await cardService.getAllCards({ tags: [tag] });
+      setFilteredCards(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erreur lors du chargement des cartes');
     } finally {
@@ -28,8 +46,31 @@ function MyCards() {
   };
 
   useEffect(() => {
-    loadCards();
+    loadAllCards();
   }, []);
+
+  const getAllTags = (): string[] => {
+    const tags = cards
+      .map(card => card.tag)
+      .filter((tag): tag is string => tag !== null && tag !== undefined && tag !== '');
+    return Array.from(new Set(tags)).sort();
+  };
+
+  const getCardsWithoutTag = (): number => {
+    return cards.filter(card => !card.tag || card.tag === '').length;
+  };
+
+  const handleTagFilter = async (tag: string | null) => {
+    setSelectedTag(tag);
+    if (tag === null) {
+      setFilteredCards(cards);
+    } else if (tag === '__NO_TAG__') {
+      const cardsWithoutTag = cards.filter(card => !card.tag || card.tag === '');
+      setFilteredCards(cardsWithoutTag);
+    } else {
+      await loadCardsByTag(tag);
+    }
+  };
 
   return (
     <>
@@ -58,8 +99,65 @@ function MyCards() {
               </button>
             </div>
           ) : (
-            <div className="cards-grid">
-              {cards.map((card) => (
+            <>
+              <div className="tags-filter-section">
+                <h3>Filtrer par tag</h3>
+                <div className="tags-list">
+                  <button
+                    className={`tag-filter ${selectedTag === null ? 'active' : ''}`}
+                    onClick={() => handleTagFilter(null)}
+                  >
+                    Toutes les cartes ({cards.length})
+                  </button>
+                  {getCardsWithoutTag() > 0 && (
+                    <button
+                      className={`tag-filter ${selectedTag === '__NO_TAG__' ? 'active' : ''}`}
+                      onClick={() => handleTagFilter('__NO_TAG__')}
+                    >
+                      Sans tag ({getCardsWithoutTag()})
+                    </button>
+                  )}
+                  {getAllTags().map((tag) => {
+                    const count = cards.filter(card => card.tag === tag).length;
+                    return (
+                      <button
+                        key={tag}
+                        className={`tag-filter ${selectedTag === tag ? 'active' : ''}`}
+                        onClick={() => handleTagFilter(tag)}
+                      >
+                        {tag} ({count})
+                      </button>
+                    );
+                  })}
+                </div>
+                {selectedTag && (
+                  <div className="tag-selected-info">
+                    <p>
+                      {selectedTag === '__NO_TAG__' ? (
+                        <>
+                          <strong>{filteredCards.length}</strong> carte{filteredCards.length > 1 ? 's' : ''} <strong>sans tag</strong>
+                        </>
+                      ) : (
+                        <>
+                          <strong>{filteredCards.length}</strong> carte{filteredCards.length > 1 ? 's' : ''} avec le tag <strong>"{selectedTag}"</strong>
+                        </>
+                      )}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {filteredCards.length === 0 ? (
+                <div className="empty-state">
+                  <p>
+                    {selectedTag === '__NO_TAG__' 
+                      ? 'Aucune carte sans tag trouvée.'
+                      : `Aucune carte trouvée avec le tag "${selectedTag}".`}
+                  </p>
+                </div>
+              ) : (
+                <div className="cards-grid">
+                  {filteredCards.map((card) => (
                 <div key={card.id} className="card-item">
                   <div className="card-header">
                     <span className={`category-badge category-${card.category}`}>
@@ -84,9 +182,11 @@ function MyCards() {
                       </div>
                     )}
                   </div>
-                </div>
-              ))}
-            </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            </>
           )}
         </div>
       </div>
