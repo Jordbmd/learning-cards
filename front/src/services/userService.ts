@@ -13,36 +13,39 @@ interface QuizAvailability {
 
 export const userService = {
   async createUser(data: CreateUserDTO): Promise<User> {
-    const response = await fetch(`${API_BASE_URL}/users`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+    const user: User = {
+      id: crypto.randomUUID(),
+      name: data.name,
+      email: data.email,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Erreur lors de la création de l\'utilisateur');
+    const users = this.getLocalUsers();
+
+    if (users.find(u => u.email.toLowerCase() === data.email.toLowerCase())) {
+      throw new Error('Cet email est déjà utilisé');
     }
 
-    return response.json();
+    users.push(user);
+    localStorage.setItem('users', JSON.stringify(users));
+
+    return user;
   },
 
   async getUserByEmail(email: string): Promise<User | null> {
-    const users = await this.getAllUsers();
+    const users = this.getLocalUsers();
     const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
     return user || null;
   },
 
   async getAllUsers(): Promise<User[]> {
-    const response = await fetch(`${API_BASE_URL}/users`);
+    return this.getLocalUsers();
+  },
 
-    if (!response.ok) {
-      throw new Error('Erreur lors de la récupération des utilisateurs');
-    }
-
-    return response.json();
+  getLocalUsers(): User[] {
+    const usersJson = localStorage.getItem('users');
+    return usersJson ? JSON.parse(usersJson) : [];
   },
 
   async checkQuizAvailability(userId: string): Promise<QuizAvailability> {
