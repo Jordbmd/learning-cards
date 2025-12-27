@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import AddIcon from '@mui/icons-material/Add';
@@ -9,6 +10,16 @@ import './Header.css';
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('currentUser');
@@ -21,7 +32,7 @@ function Header() {
   };
 
   return (
-    <header className="app-header">
+    <header className={`app-header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="header-content">
         <h1 className="header-logo" onClick={() => navigate('/dashboard')}>
           Learning Cards

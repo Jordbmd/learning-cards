@@ -8,6 +8,13 @@
     z-index: 1000;
     width: 100%;
     pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.app-header.scrolled {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
 }
 
 .header-content {
@@ -26,7 +33,11 @@
     font-weight: bold;
     margin: 0;
     cursor: pointer;
-    transition: opacity 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.app-header.scrolled .header-logo {
+    color: #667eea;
 }
 
 .header-logo:hover {
@@ -55,6 +66,11 @@
     white-space: nowrap;
 }
 
+.app-header.scrolled .nav-btn {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+}
+
 .nav-btn svg {
     font-size: 1.2rem;
 }
@@ -64,10 +80,20 @@
     transform: translateY(-2px);
 }
 
+.app-header.scrolled .nav-btn:hover {
+    background: rgba(102, 126, 234, 0.2);
+}
+
 .nav-btn.active {
     background: white;
     color: #667eea;
     border-color: white;
+}
+
+.app-header.scrolled .nav-btn.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
 }
 
 .logout-btn {
@@ -75,8 +101,17 @@
     margin-left: 1rem;
 }
 
+.app-header.scrolled .logout-btn {
+    background: rgba(220, 38, 38, 0.15);
+    color: #dc2626;
+}
+
 .logout-btn:hover {
     background: rgba(220, 38, 38, 0.4);
+}
+
+.app-header.scrolled .logout-btn:hover {
+    background: rgba(220, 38, 38, 0.3);
 }
 
 /* Responsive */
