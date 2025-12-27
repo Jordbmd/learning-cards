@@ -92,6 +92,14 @@ describe('CardService', () => {
       expect(result).toEqual(mockCards);
       expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/cards'));
     });
+
+    it('should throw error when fetch fails', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+      } as Response);
+
+      await expect(cardService.getAllCards()).rejects.toThrow('Erreur lors de la récupération des cartes');
+    });
   });
 
   describe('getQuizzCards', () => {
@@ -151,6 +159,14 @@ describe('CardService', () => {
       expect(result[0].question).toBe('Q1');
       expect(result[1].category).toBe(Category.SECOND);
     });
+
+    it('should throw error when getQuizzCards fails', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+      } as Response);
+
+      await expect(cardService.getQuizzCards()).rejects.toThrow('Erreur lors de la récupération du quizz');
+    });
   });
 
   describe('answerCard', () => {
@@ -179,6 +195,17 @@ describe('CardService', () => {
       await expect(
         cardService.answerCard('invalid-id', true)
       ).rejects.toThrow('Carte non trouvée');
+    });
+
+    it('should throw generic error when answer fails (not 404)', async () => {
+      mockFetch.mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+      } as Response);
+
+      await expect(
+        cardService.answerCard('card-id', false)
+      ).rejects.toThrow('Erreur lors de la réponse à la carte');
     });
 
     it('should call PATCH /cards/:id/answer with isValid', async () => {
