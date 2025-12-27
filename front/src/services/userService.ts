@@ -12,6 +12,8 @@ interface QuizAvailability {
 }
 
 export const userService = {
+  // Authentification simplifiée - compatible avec backend du prof (pas d'endpoints /users)
+  // Accepte n'importe quel email pour se connecter
   async createUser(data: CreateUserDTO): Promise<User> {
     const user: User = {
       id: crypto.randomUUID(),
@@ -21,12 +23,8 @@ export const userService = {
       updatedAt: new Date()
     };
 
+    // Sauvegarder dans localStorage (pas de vérification d'unicité)
     const users = this.getLocalUsers();
-
-    if (users.find(u => u.email.toLowerCase() === data.email.toLowerCase())) {
-      throw new Error('Cet email est déjà utilisé');
-    }
-
     users.push(user);
     localStorage.setItem('users', JSON.stringify(users));
 
@@ -35,8 +33,21 @@ export const userService = {
 
   async getUserByEmail(email: string): Promise<User | null> {
     const users = this.getLocalUsers();
-    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
-    return user || null;
+    let user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+
+    if (!user) {
+      user = {
+        id: crypto.randomUUID(),
+        name: email.split('@')[0],
+        email: email,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      };
+      users.push(user);
+      localStorage.setItem('users', JSON.stringify(users));
+    }
+
+    return user;
   },
 
   async getAllUsers(): Promise<User[]> {
