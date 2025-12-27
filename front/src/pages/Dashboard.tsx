@@ -6,6 +6,7 @@ import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import { cardService } from '../services/cardService';
 import { Category } from '../domain/types';
 import type { Card } from '../domain/types';
+import Header from '../components/Header';
 import './Dashboard.css';
 
 interface User {
@@ -62,11 +63,6 @@ function Dashboard() {
     };
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('currentUser');
-    navigate('/');
-  };
-
   if (!user) {
     return null;
   }
@@ -74,14 +70,13 @@ function Dashboard() {
   const stats = getStats();
 
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-card">
-        <div className="dashboard-header">
-          <h1>Tableau de bord</h1>
-          <button onClick={handleLogout} className="btn-logout">
-            Déconnexion
-          </button>
-        </div>
+    <>
+      <Header />
+      <div className="dashboard-container">
+        <div className="dashboard-card">
+          <div className="dashboard-header">
+            <h1>Tableau de bord</h1>
+          </div>
 
         <div className="user-info">
           <h2>Bienvenue, {user.name} !</h2>
@@ -127,6 +122,7 @@ function Dashboard() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

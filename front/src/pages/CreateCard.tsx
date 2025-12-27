@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cardService } from '../services/cardService';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Header from '../components/Header';
 import './CreateCard.css';
 
 function CreateCard() {
@@ -41,8 +42,10 @@ function CreateCard() {
   };
 
   return (
-    <div className="create-card-container">
-      <div className="create-card-card">
+    <>
+      <Header />
+      <div className="create-card-container">
+        <div className="create-card-card">
         <h1>Créer une carte</h1>
         
         <form onSubmit={handleSubmit}>
@@ -95,6 +98,7 @@ function CreateCard() {
         </form>
       </div>
     </div>
+    </>
   );
 }
 

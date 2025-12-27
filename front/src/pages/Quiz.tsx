@@ -4,6 +4,7 @@ import { cardService } from '../services/cardService';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import type { Card } from '../domain/types';
 import { getCategoryLabel } from '../domain/types';
+import Header from '../components/Header';
 import './Quiz.css';
 
 function Quiz() {
@@ -54,41 +55,52 @@ function Quiz() {
 
   if (isLoading) {
     return (
-      <div className="quiz-container">
-        <div className="loading">Chargement du quizz...</div>
-      </div>
+      <>
+        <Header />
+        <div className="quiz-container">
+          <div className="loading">Chargement du quizz...</div>
+        </div>
+      </>
     );
   }
 
   if (error) {
     return (
-      <div className="quiz-container">
-        <div className="error-message">{error}</div>
-        <button className="btn-back" onClick={() => navigate('/dashboard')}>
-          <ArrowBackIcon /> Retour
-        </button>
-      </div>
+      <>
+        <Header />
+        <div className="quiz-container">
+          <div className="error-message">{error}</div>
+          <button className="btn-back" onClick={() => navigate('/dashboard')}>
+            <ArrowBackIcon /> Retour
+          </button>
+        </div>
+      </>
     );
   }
 
   if (cards.length === 0) {
     return (
-      <div className="quiz-container">
-        <div className="empty-state">
-          <h2>Aucune carte à réviser aujourd'hui</h2>
-          <p>Revenez demain pour continuer votre apprentissage !</p>
-          <button className="btn-back" onClick={() => navigate('/dashboard')}>
-            <ArrowBackIcon /> Retour
-        </button>
+      <>
+        <Header />
+        <div className="quiz-container">
+          <div className="empty-state">
+            <h2>Aucune carte à réviser aujourd'hui</h2>
+            <p>Revenez demain pour continuer votre apprentissage !</p>
+            <button className="btn-back" onClick={() => navigate('/dashboard')}>
+              <ArrowBackIcon /> Retour
+          </button>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   const currentCard = cards[currentIndex];
 
   return (
-    <div className="quiz-container">
+    <>
+      <Header />
+      <div className="quiz-container">
       <div className="quiz-header">
         <h1>Quizz du jour</h1>
         <div className="progress">
@@ -157,6 +169,7 @@ function Quiz() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

@@ -5,6 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import type { Card } from '../domain/types';
 import { getCategoryLabel } from '../domain/types';
+import Header from '../components/Header';
 import './MyCards.css';
 
 function MyCards() {
@@ -31,8 +32,10 @@ function MyCards() {
   }, []);
 
   return (
-    <div className="my-cards-container">
-      <div className="my-cards-content">
+    <>
+      <Header />
+      <div className="my-cards-container">
+        <div className="my-cards-content">
         <div className="my-cards-header">
           <h1>Mes cartes</h1>
           <div className="header-actions">
@@ -90,6 +93,7 @@ function MyCards() {
         )}
       </div>
     </div>
+    </>
   );
 }
 
