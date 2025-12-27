@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { userService } from '../services/userService';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import './Register.css';
 
 function Register() {
@@ -47,6 +48,15 @@ function Register() {
   return (
     <div className="register-container">
       <div className="register-content">
+        <button 
+          type="button" 
+          className="btn-back-chevron"
+          onClick={() => navigate('/')}
+          aria-label="Retour"
+        >
+          <ArrowBackIcon />
+        </button>
+        
         <h1 className="register-title">Créer un compte</h1>
         <p className="register-subtitle">Rejoignez Learning Cards</p>
 
@@ -85,14 +95,6 @@ function Register() {
 
           <button type="submit" className="btn-submit" disabled={isLoading}>
             {isLoading ? 'Inscription...' : 'S\'inscrire'}
-          </button>
-
-          <button 
-            type="button" 
-            className="btn-back"
-            onClick={() => navigate('/')}
-          >
-            Retour
           </button>
         </form>
       </div>

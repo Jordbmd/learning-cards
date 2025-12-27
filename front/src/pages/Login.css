@@ -17,6 +17,35 @@
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   max-width: 500px;
   width: 90%;
+  position: relative;
+}
+
+.btn-back-chevron {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.btn-back-chevron svg {
+  font-size: 1.5rem;
+}
+
+.btn-back-chevron:hover {
+  background: #667eea;
+  color: white;
+  transform: translateX(-3px);
 }
 
 .login-title {
@@ -91,22 +120,4 @@
   background: #ccc;
   cursor: not-allowed;
   transform: none;
-}
-
-.btn-back {
-  padding: 1rem;
-  font-size: 1rem;
-  font-weight: 600;
-  background: transparent;
-  color: #667eea;
-  border: 2px solid #667eea;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-back:hover {
-  background: #667eea;
-  color: white;
-  transform: translateY(-2px);
 }

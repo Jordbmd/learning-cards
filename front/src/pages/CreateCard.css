@@ -82,10 +82,10 @@
   display: flex;
   gap: 15px;
   margin-top: 30px;
+  align-items: stretch;
 }
 
-.btn-submit,
-.btn-back {
+.btn-submit {
   flex: 1;
   padding: 14px;
   border: none;
@@ -94,9 +94,6 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-}
-
-.btn-submit {
   background: #667eea;
   color: white;
 }
@@ -114,9 +111,24 @@
 }
 
 .btn-back {
+  padding: 14px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
   background: white;
   color: #667eea;
   border: 2px solid #667eea;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.btn-back svg {
+  font-size: 1.2rem;
 }
 
 .btn-back:hover {

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cardService } from '../services/cardService';
 import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import type { Card } from '../domain/types';
 import { getCategoryLabel } from '../domain/types';
 import './MyCards.css';
@@ -35,12 +36,12 @@ function MyCards() {
         <div className="my-cards-header">
           <h1>Mes cartes</h1>
           <div className="header-actions">
+            <button className="btn-back" onClick={() => navigate('/dashboard')}>
+              <ArrowBackIcon /> Retour
+            </button>
             <button className="btn-add" onClick={() => navigate('/cards/create')}>
               <AddIcon />
               Nouvelle carte
-            </button>
-            <button className="btn-back" onClick={() => navigate('/dashboard')}>
-              Retour
             </button>
           </div>
         </div>

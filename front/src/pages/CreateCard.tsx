@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cardService } from '../services/cardService';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import './CreateCard.css';
 
 function CreateCard() {
@@ -84,11 +85,11 @@ function CreateCard() {
           {error && <div className="error-message">{error}</div>}
 
           <div className="button-group">
+            <button type="button" className="btn-back" onClick={() => navigate('/dashboard')}>
+              <ArrowBackIcon /> Retour
+            </button>
             <button type="submit" className="btn-submit" disabled={isLoading}>
               {isLoading ? 'Création...' : 'Créer la carte'}
-            </button>
-            <button type="button" className="btn-back" onClick={() => navigate('/dashboard')}>
-              Retour
             </button>
           </div>
         </form>

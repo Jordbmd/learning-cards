@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { userService } from '../services/userService';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import './Login.css';
 
 function Login() {
@@ -43,6 +44,15 @@ function Login() {
   return (
     <div className="login-container">
       <div className="login-content">
+        <button 
+          type="button" 
+          className="btn-back-chevron"
+          onClick={() => navigate('/')}
+          aria-label="Retour"
+        >
+          <ArrowBackIcon />
+        </button>
+        
         <h1 className="login-title">Connexion</h1>
         <p className="login-subtitle">Accédez à votre compte Learning Cards</p>
 
@@ -61,14 +71,6 @@ function Login() {
 
           <button type="submit" className="btn-submit" disabled={isLoading}>
             {isLoading ? 'Connexion...' : 'Se connecter'}
-          </button>
-
-          <button 
-            type="button" 
-            className="btn-back"
-            onClick={() => navigate('/')}
-          >
-            Retour
           </button>
         </form>
       </div>

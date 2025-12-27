@@ -244,6 +244,13 @@
   cursor: pointer;
   font-weight: 500;
   margin-top: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-back svg {
+  font-size: 1.2rem;
 }
 
 .btn-back:hover {

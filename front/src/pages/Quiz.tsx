@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cardService } from '../services/cardService';
 import { userService } from '../services/userService';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import type { Card } from '../domain/types';
 import { getCategoryLabel } from '../domain/types';
 import './Quiz.css';
@@ -84,7 +85,7 @@ function Quiz() {
       <div className="quiz-container">
         <div className="error-message">{error}</div>
         <button className="btn-back" onClick={() => navigate('/dashboard')}>
-          Retour
+          <ArrowBackIcon /> Retour
         </button>
       </div>
     );
@@ -97,7 +98,7 @@ function Quiz() {
           <h2>Quiz déjà effectué aujourd'hui</h2>
           <p>Vous avez déjà complété votre quiz quotidien. Revenez demain !</p>
           <button className="btn-back" onClick={() => navigate('/dashboard')}>
-            Retour
+            <ArrowBackIcon /> Retour
           </button>
         </div>
       </div>
@@ -111,7 +112,7 @@ function Quiz() {
           <h2>Aucune carte à réviser aujourd'hui</h2>
           <p>Revenez demain pour continuer votre apprentissage !</p>
           <button className="btn-back" onClick={() => navigate('/dashboard')}>
-            Retour
+            <ArrowBackIcon /> Retour
         </button>
         </div>
       </div>
