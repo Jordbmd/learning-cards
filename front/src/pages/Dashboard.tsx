@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import TrackChangesIcon from '@mui/icons-material/TrackChanges';
@@ -18,6 +18,7 @@ interface User {
 
 function Dashboard() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState<User | null>(null);
   const [cards, setCards] = useState<Card[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,8 +30,13 @@ function Dashboard() {
       return;
     }
     setUser(JSON.parse(storedUser));
-    loadCards();
   }, [navigate]);
+
+  useEffect(() => {
+    if (user) {
+      loadCards();
+    }
+  }, [location, user]);
 
   const loadCards = async () => {
     try {
